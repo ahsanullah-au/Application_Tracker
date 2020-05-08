@@ -20,7 +20,7 @@ function App() {
       {
         (route === "SignIn")? <SignIn route={route} setRoute={setRoute} setUser ={setUser}/>:
         (route === 'Register')?<Register route={route} setRoute={setRoute} setUser ={setUser}/>:
-        <Home route={route} user={user} />
+        <Home user={user} setRoute={setRoute} setUser={setUser}/>
       }
 
     </div>

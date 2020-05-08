@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-const SignIn = ({ route, setRoute }) => {
+const SignIn = ({ route, setRoute, setUser }) => {
 
-    const [signInState, setSignInState] = useState({
+    const [signInState, setSignInState,] = useState({
         email: '',
         password: ''
     })
@@ -19,6 +19,31 @@ const SignIn = ({ route, setRoute }) => {
             email: signInState.email,
             password: event.target.value
         })
+    }
+
+    const onSubmitSignin = (event) => {
+        event.preventDefault();
+        if (signInState.email && signInState.password) {
+            fetch('http://localhost:3001/signin', {
+                method: 'post',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: signInState.email,
+                    password: signInState.password
+                })
+            })
+                .then(response => response.json())
+                .then(user => {
+                    if (user.id) {
+                        setUser(user);
+                        setRoute('home');
+                    }
+                })
+
+
+
+        }
+
     }
 
     return (
@@ -50,8 +75,7 @@ const SignIn = ({ route, setRoute }) => {
                         type="submit"
                         value="Sign in"
                         onClick={(evt) => {
-                            console.log(signInState);
-                            evt.preventDefault();
+                            onSubmitSignin(evt)
                         }}
                     />
                 </div>
