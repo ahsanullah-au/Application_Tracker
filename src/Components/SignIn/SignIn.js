@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const SignIn = ({ route, setRoute, setUser }) => {
 
-    const [signInState, setSignInState,] = useState({
+    const [signInState, setSignInState] = useState({
         email: '',
         password: ''
     })
