@@ -1,37 +1,41 @@
 import React, { useState } from 'react';
+import AppEntry from "../AppEntry/AppEntry"
 
 const Home = ({ user, setUser, setRoute }) => {
 
+    const getApplications = () => {
+
+    }
+
+    const addApplication = () => {
+
+    }
+
     const [appData, setAppData] = useState([
-        { appCompany: "Loblaws", appRole: "Product Lead", appLocation: "Brampton", appDate: "3/5/2020", appResponse: "Accepted", appLink: "loblaws.ca", appNotes: "test" },
-        { appCompany: "Loblaws1", appRole: "Product Lead1", appLocation: "Brampton1", appDate: "3/5/20201", appResponse: "Accepted1", appLink: "loblaws.ca1", appNotes: "test1" },
-        { appCompany: "Loblaws", appRole: "Product Lead", appLocation: "Brampton", appDate: "3/5/2020", appResponse: "Accepted", appLink: "loblaws.ca", appNotes: "test" },
-        { appCompany: "Loblaws1", appRole: "Product Lead1", appLocation: "Brampton1", appDate: "3/5/20201", appResponse: "Accepted1", appLink: "loblaws.ca1", appNotes: "test1" }
-    
+        { appID: "1", appCompany: "Loblaws", appRole: "Product Lead", appLocation: "Brampton", appDate: "3/5/2020", appResponse: "Accepted", appLink: "loblaws.ca", appNotes: "test" },
+        { appID: "2", appCompany: "Loblaws1", appRole: "Product Lead1", appLocation: "Brampton1", appDate: "3/5/20201", appResponse: "Accepted1", appLink: "loblaws.ca1", appNotes: "test1" },
+        { appID: "3", appCompany: "Loblaws", appRole: "Product Lead", appLocation: "Brampton", appDate: "3/5/2020", appResponse: "Accepted", appLink: "loblaws.ca", appNotes: "test" },
+        { appID: "4", appCompany: "Loblaws1", appRole: "Product Lead1", appLocation: "Brampton1", appDate: "3/5/20201", appResponse: "Accepted1", appLink: "loblaws.ca1", appNotes: "test1" }
+
     ])
 
     const renderTable = () => {
         return appData.map(appRecord => {
             return (
-                <tr className="stripe-dark">
-                    <td className="pa3">{appRecord.appCompany}</td>
-                    <td className="pa3">{appRecord.appRole}</td>
-                    <td className="pa3">{appRecord.appLocation}</td>
-                    <td className="pa3">{appRecord.appDate}</td>
-                    <td className="pa3">{appRecord.appResponse}</td>
-                    <td className="pa3">{appRecord.appLink}</td>
-                    <td className="pa3">{appRecord.appNotes}</td>
-                </tr>
+                <AppEntry key={"App Key: " + appRecord.appID}
+                    appID={appRecord.appID}
+                    appCompany={appRecord.appCompany}
+                    appRole={appRecord.appRole}
+                    appLocation={appRecord.appLocation}
+                    appDate={appRecord.appDate}
+                    appResponse={appRecord.appResponse}
+                    appLink={appRecord.appLink}
+                    appNotes={appRecord.appNotes} />
             )
         })
     }
 
     return (
-
-
-
-
-
 
         < div >
             <nav style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -52,7 +56,7 @@ const Home = ({ user, setUser, setRoute }) => {
 
             <div className="pa4">
                 <div className="overflow-auto">
-                    <table className="f6 w-100 mw8 center" cellspacing="0">
+                    <table className="f6 w-100 mw8 center" cellSpacing="0">
                         <thead>
                             <tr className="stripe-dark">
                                 <th className="fw6 tl pa3 bg-white">Company</th>
