@@ -1,9 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AppEntry from "../AppEntry/AppEntry"
 
 const Home = ({ user, setUser, setRoute }) => {
 
     const getApplications = () => {
+        if(user.id){
+            fetch('http://localhost:3001/applications/'+user.id, {
+                method: 'get',
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(response => response.json())
+            .then(userApps => {
+                setAppData(userApps);
+            })
+        }
 
     }
 
@@ -34,6 +44,8 @@ const Home = ({ user, setUser, setRoute }) => {
             )
         })
     }
+
+    useEffect(() => getApplications(), []);
 
     return (
 
@@ -70,7 +82,8 @@ const Home = ({ user, setUser, setRoute }) => {
                             </tr>
                         </thead>
                         <tbody className="lh-copy">
-                            {renderTable()};
+                            
+                            {renderTable()}
                         </tbody>
                     </table>
                 </div>
