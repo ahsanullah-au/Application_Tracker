@@ -40,7 +40,8 @@ const Home = ({ user, setUser, setRoute }) => {
                     appDate={appRecord.appDate}
                     appResponse={appRecord.appResponse}
                     appLink={appRecord.appLink}
-                    appNotes={appRecord.appNotes} />
+                    appNotes={appRecord.appNotes}
+                    getApplications = {getApplications} />
             )
         })
     }

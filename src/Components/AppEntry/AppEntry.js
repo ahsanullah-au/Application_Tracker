@@ -1,12 +1,30 @@
 import React, { useState } from 'react';
 
-const AppEntry = ({ appCompany, appRole, appLocation, appDate, appResponse, appLink, appNotes }) => {
+const AppEntry = ({ appID, appCompany, appRole, appLocation, appDate, appResponse, appLink, appNotes, getApplications }) => {
 
 const updateApplication = () => {
 
 }
 
 const deleteApplication = () => {
+
+    if (appID) {
+        fetch('http://localhost:3001/applications', {
+            method: 'delete',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                appID: appID
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                getApplications();
+            })
+
+
+
+    }
 
 }
 
@@ -20,7 +38,7 @@ const deleteApplication = () => {
             <td className="pa3">{appLink}</td>
             <td className="pa3">{appNotes}</td>
             <td className="pa1">Edit</td>
-            <td className="pa1">Delete</td>
+            <td className="pa1" onClick={deleteApplication} >Delete</td>
         </tr>
     )
 }
