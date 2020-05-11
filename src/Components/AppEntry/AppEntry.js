@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 const AppEntry = ({ appID, appCompany, appRole, appLocation, appDate, appResponse, appLink, appNotes, getApplications }) => {
 
 const updateApplication = () => {
 
 }
+
 
 const deleteApplication = () => {
 
@@ -18,7 +19,6 @@ const deleteApplication = () => {
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 getApplications();
             })
 

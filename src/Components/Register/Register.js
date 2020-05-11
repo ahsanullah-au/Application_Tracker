@@ -73,7 +73,7 @@ const Register = ({ route, setRoute, setUser }) => {
     return (
         
         <article className="pa4 black-80">
-            <form action="sign-up_submit" method="get" acceptCharset="utf-8" method="post">
+            <form action="sign-up_submit" acceptCharset="utf-8" method="post">
                 <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
                     <div className="mt3">
                         <label className="db fw4 lh-copy f6" htmlFor="firstname">First Name</label>

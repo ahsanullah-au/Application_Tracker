@@ -21,13 +21,7 @@ const Home = ({ user, setUser, setRoute }) => {
 
     }
 
-    const [appData, setAppData] = useState([
-        { appID: "1", appCompany: "Loblaws", appRole: "Product Lead", appLocation: "Brampton", appDate: "3/5/2020", appResponse: "Accepted", appLink: "loblaws.ca", appNotes: "test" },
-        { appID: "2", appCompany: "Loblaws1", appRole: "Product Lead1", appLocation: "Brampton1", appDate: "3/5/20201", appResponse: "Accepted1", appLink: "loblaws.ca1", appNotes: "test1" },
-        { appID: "3", appCompany: "Loblaws", appRole: "Product Lead", appLocation: "Brampton", appDate: "3/5/2020", appResponse: "Accepted", appLink: "loblaws.ca", appNotes: "test" },
-        { appID: "4", appCompany: "Loblaws1", appRole: "Product Lead1", appLocation: "Brampton1", appDate: "3/5/20201", appResponse: "Accepted1", appLink: "loblaws.ca1", appNotes: "test1" }
-
-    ])
+    const [appData, setAppData] = useState([])
 
     const renderTable = () => {
         return appData.map(appRecord => {
@@ -45,8 +39,8 @@ const Home = ({ user, setUser, setRoute }) => {
             )
         })
     }
-
-    useEffect(() => getApplications(), []);
+    // eslint-disable-next-line
+    useEffect(() => getApplications(), []);//Safe to ignore warning on this because getApplications is not dependent on state
 
     return (
 
