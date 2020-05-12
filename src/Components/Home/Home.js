@@ -4,24 +4,46 @@ import AppEntry from "../AppEntry/AppEntry"
 const Home = ({ user, setUser, setRoute }) => {
 
     const getApplications = () => {
-        if(user.id){
-            fetch('http://localhost:3001/applications/'+user.id, {
+        if (user.id) {
+            fetch('http://localhost:3001/applications/' + user.id, {
                 method: 'get',
                 headers: { 'Content-Type': 'application/json' }
             })
-            .then(response => response.json())
-            .then(userApps => {
-                setAppData(userApps);
-            })
+                .then(response => response.json())
+                .then(userApps => {
+                    setAppData(userApps);
+                })
         }
 
     }
 
     const addApplication = () => {
+        if (user.id && newApplication.newCompany && newApplication.newRole && newApplication.newLocation && newApplication.newDate && newApplication.newResponse && newApplication.newLink) {
+            fetch('http://localhost:3001/applications', {
+                method: 'post',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    userID: user.id,
+                    appCompany: newApplication.newCompany,
+                    appRole: newApplication.newRole,
+                    appLocation: newApplication.newLocation,
+                    appDate: newApplication.newDate,
+                    appResponse: newApplication.newResponse,
+                    appLink: newApplication.newLink,
+                    appNotes: newApplication.newNotes
 
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    getApplications();
+                })
+        }
     }
 
     const [appData, setAppData] = useState([])
+
+    const [newApplication, setNewApplication] = useState([])
 
     const renderTable = () => {
         return appData.map(appRecord => {
@@ -35,7 +57,7 @@ const Home = ({ user, setUser, setRoute }) => {
                     appResponse={appRecord.appResponse}
                     appLink={appRecord.appLink}
                     appNotes={appRecord.appNotes}
-                    getApplications = {getApplications} />
+                    getApplications={getApplications} />
             )
         })
     }
@@ -77,7 +99,17 @@ const Home = ({ user, setUser, setRoute }) => {
                             </tr>
                         </thead>
                         <tbody className="lh-copy">
-                            
+                            <tr className="stripe-dark">
+                                <td className="pa3"><input type="text" id="AddCompany" onChange={(evt) => { setNewApplication({ ...newApplication, newCompany: evt.target.value }) }} /></td>
+                                <td className="pa3"><input type="text" id="AddRole" onChange={(evt) => { setNewApplication({ ...newApplication, newRole: evt.target.value }) }} /></td>
+                                <td className="pa3"><input type="text" id="AddLocation" onChange={(evt) => { setNewApplication({ ...newApplication, newLocation: evt.target.value }) }} /></td>
+                                <td className="pa3"><input type="text" id="AddDate" onChange={(evt) => { setNewApplication({ ...newApplication, newDate: evt.target.value }) }} /></td>
+                                <td className="pa3"><input type="text" id="AddResponse" onChange={(evt) => { setNewApplication({ ...newApplication, newResponse: evt.target.value }) }} /></td>
+                                <td className="pa3"><input type="text" id="AddLink" onChange={(evt) => { setNewApplication({ ...newApplication, newLink: evt.target.value }) }} /></td>
+                                <td className="pa3"><input type="text" id="AddNotes" onChange={(evt) => { setNewApplication({ ...newApplication, newNotes: evt.target.value }) }} /></td>
+                                <td className="pa1"><button id="AddApplication" value="Add" onClick={() => addApplication()} >Add</button></td>
+                                <td className="pa1"></td>
+                            </tr>
                             {renderTable()}
                         </tbody>
                     </table>

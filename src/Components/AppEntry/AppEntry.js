@@ -37,8 +37,8 @@ const deleteApplication = () => {
             <td className="pa3">{appResponse}</td>
             <td className="pa3">{appLink}</td>
             <td className="pa3">{appNotes}</td>
-            <td className="pa1">Edit</td>
-            <td className="pa1" onClick={deleteApplication} >Delete</td>
+            <td className="pa1"><button id={"EditApplication"+appID} value="Edit">Edit</button></td>
+            <td className="pa1"><button id={"DeleteApplication"+appID} value="Delete"  onClick={deleteApplication}>Delete</button></td>
         </tr>
     )
 }
