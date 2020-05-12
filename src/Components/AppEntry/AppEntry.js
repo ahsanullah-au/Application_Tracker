@@ -33,7 +33,7 @@ const deleteApplication = () => {
             <td className="pa3">{appCompany}</td>
             <td className="pa3">{appRole}</td>
             <td className="pa3">{appLocation}</td>
-            <td className="pa3">{appDate}</td>
+            <td className="pa3">{appDate.substring(0,10)}</td>
             <td className="pa3">{appResponse}</td>
             <td className="pa3">{appLink}</td>
             <td className="pa3">{appNotes}</td>
