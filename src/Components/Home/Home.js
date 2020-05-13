@@ -99,7 +99,7 @@ const Home = ({ user, setUser, setRoute }) => {
                             </tr>
                         </thead>
                         <tbody className="lh-copy">
-                            <tr className="stripe-dark">
+                            <tr className="stripe-dark w-100">
                                 <td className="pa3"><input type="text" id="AddCompany" onChange={(evt) => { setNewApplication({ ...newApplication, newCompany: evt.target.value }) }} /></td>
                                 <td className="pa3"><input type="text" id="AddRole" onChange={(evt) => { setNewApplication({ ...newApplication, newRole: evt.target.value }) }} /></td>
                                 <td className="pa3"><input type="text" id="AddLocation" onChange={(evt) => { setNewApplication({ ...newApplication, newLocation: evt.target.value }) }} /></td>
