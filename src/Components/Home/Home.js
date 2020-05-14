@@ -3,6 +3,12 @@ import AppEntry from "../AppEntry/AppEntry"
 
 const Home = ({ user, setUser, setRoute }) => {
 
+    const [appData, setAppData] = useState([])
+
+    const [newApplication, setNewApplication] = useState([])
+
+    const [sortState, setSortState] = useState({ sortType: "ID", sortDirection: 1 })
+
     const getApplications = () => {
         if (user.id) {
             fetch('http://localhost:3001/applications/' + user.id, {
@@ -41,9 +47,22 @@ const Home = ({ user, setUser, setRoute }) => {
         }
     }
 
-    const [appData, setAppData] = useState([])
+    const sortApplications = (tempSortType = sortState.sortType, changeSortDirection = 1) => {
+        setSortState({
+            sortType: tempSortType,
+            sortDirection: sortState.sortDirection * -1 * changeSortDirection
+        })
 
-    const [newApplication, setNewApplication] = useState([])
+        setAppData(appData.sort((a, b) => {
+            
+            return ((('' + a[tempSortType]).localeCompare('' + b[tempSortType])) * sortState.sortDirection)
+        }))
+        
+
+
+    }
+
+
 
     const renderTable = () => {
         return appData.map(appRecord => {
@@ -88,13 +107,13 @@ const Home = ({ user, setUser, setRoute }) => {
                     <table className="f6 w-100 mw8 center" cellSpacing="0">
                         <thead>
                             <tr className="stripe-dark">
-                                <th className="fw6 tl pa3 bg-white">Company</th>
-                                <th className="fw6 tl pa3 bg-white">Role</th>
-                                <th className="fw6 tl pa3 bg-white">Location</th>
-                                <th className="fw6 tl pa3 bg-white">Date Applied</th>
-                                <th className="fw6 tl pa3 bg-white">Response</th>
-                                <th className="fw6 tl pa3 bg-white">Link to Posting</th>
-                                <th className="fw6 tl pa3 bg-white">Notes</th>
+                                <th className="fw6 tl pa3 bg-white" onClick={() => sortApplications("appCompany")} >Company</th>
+                                <th className="fw6 tl pa3 bg-white"onClick={() => sortApplications("appRole") }>Role</th>
+                                <th className="fw6 tl pa3 bg-white"onClick={() => sortApplications("appLocation") }>Location</th>
+                                <th className="fw6 tl pa3 bg-white"onClick={() => sortApplications("appDate") }>Date Applied</th>
+                                <th className="fw6 tl pa3 bg-white"onClick={() => sortApplications("appResponse") }>Response</th>
+                                <th className="fw6 tl pa3 bg-white"onClick={() => sortApplications("appLink") }>Link to Posting</th>
+                                <th className="fw6 tl pa3 bg-white"onClick={() => sortApplications("appNotes") }>Notes</th>
 
                             </tr>
                         </thead>
