@@ -71,7 +71,9 @@ const AppEntry = ({ appID, appCompany, appRole, appLocation, appDate, appRespons
                 <td className="pa3">{appLocation}</td>
                 <td className="pa3">{appDate.substring(0, 10)}</td>
                 <td className="pa3">{appResponse}</td>
-                <td className="pa3">{appLink}</td>
+                <td className="pa3">
+                    <a href={appLink}>{appLink}</a>
+                    </td>
                 <td className="pa3">{appNotes}</td>
                 <td className="pa1"><button id={"EditApplication" + appID} value="Edit" onClick={() => setModifyState(1)}>Edit</button></td>
                 <td className="pa1"><button id={"DeleteApplication" + appID} value="Delete" onClick={deleteApplication}>Delete</button></td>
@@ -80,13 +82,20 @@ const AppEntry = ({ appID, appCompany, appRole, appLocation, appDate, appRespons
     else {
         return (
             <tr className="stripe-dark w-100">
-                <td className="pa3"><input type="text" id="AddCompany" defaultValue={appCompany} onChange={(evt) => { setNewApplication({ ...newApplication, newCompany: evt.target.value }) }} /></td>
-                <td className="pa3"><input type="text" id="AddRole" defaultValue={appRole} onChange={(evt) => { setNewApplication({ ...newApplication, newRole: evt.target.value }) }} /></td>
-                <td className="pa3"><input type="text" id="AddLocation" defaultValue={appLocation} onChange={(evt) => { setNewApplication({ ...newApplication, newLocation: evt.target.value }) }} /></td>
-                <td className="pa3"><input type="date" id="AddDate" defaultValue={appDate.substring(0,10)} onChange={(evt) => { setNewApplication({ ...newApplication, newDate: evt.target.value }) }} /></td>
-                <td className="pa3"><input type="text" id="AddResponse" defaultValue={appResponse} onChange={(evt) => { setNewApplication({ ...newApplication, newResponse: evt.target.value }) }} /></td>
-                <td className="pa3"><input type="text" id="AddLink" defaultValue={appLink} onChange={(evt) => { setNewApplication({ ...newApplication, newLink: evt.target.value }) }} /></td>
-                <td className="pa3"><input type="text" id="AddNotes" defaultValue={appNotes} onChange={(evt) => { setNewApplication({ ...newApplication, newNotes: evt.target.value }) }} /></td>
+                <td className="pa3"><input type="text" id="ModifyCompany" defaultValue={appCompany} onChange={(evt) => { setNewApplication({ ...newApplication, newCompany: evt.target.value }) }} /></td>
+                <td className="pa3"><input type="text" id="ModifyRole" defaultValue={appRole} onChange={(evt) => { setNewApplication({ ...newApplication, newRole: evt.target.value }) }} /></td>
+                <td className="pa3"><input type="text" id="ModifyLocation" defaultValue={appLocation} onChange={(evt) => { setNewApplication({ ...newApplication, newLocation: evt.target.value }) }} /></td>
+                <td className="pa3"><input type="date" id="ModifyDate" defaultValue={appDate.substring(0, 10)} onChange={(evt) => { setNewApplication({ ...newApplication, newDate: evt.target.value }) }} /></td>
+                <td className="pa3">
+                    <select id="ModifyResponse" onChange={(evt) => { setNewApplication({ ...newApplication, newResponse: evt.target.value }) }}>
+                        <option>None</option>
+                        <option>Interview</option>
+                        <option>Accepted</option>
+                        <option>Rejected</option>
+                    </select>
+                </td>
+                <td className="pa3"><input type="url" id="ModifyLink" defaultValue={appLink} onChange={(evt) => { setNewApplication({ ...newApplication, newLink: evt.target.value }) }} /></td>
+                <td className="pa3"><input type="text" id="ModifyNotes" defaultValue={appNotes} onChange={(evt) => { setNewApplication({ ...newApplication, newNotes: evt.target.value }) }} /></td>
                 <td className="pa1"><button id="AddUpdatedApplication" value="Submit" onClick={() => updateApplication()} >Update</button></td>
                 <td className="pa1"><button id="CancelUpdatedApplication" value="Cancel" onClick={() => setModifyState(0)} >Cancel</button></td>
 

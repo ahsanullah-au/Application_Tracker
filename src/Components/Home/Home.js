@@ -54,17 +54,17 @@ const Home = ({ user, setUser, setRoute }) => {
         })
 
         setAppData(appData.sort((a, b) => {
-            
+
             return ((('' + a[tempSortType]).localeCompare('' + b[tempSortType])) * sortState.sortDirection)
         }))
-        
+
 
 
     }
 
 
 
-    const renderTable = () => {
+    const renderTableBody = () => {
         return appData.map(appRecord => {
             return (
                 <AppEntry key={"App Key: " + appRecord.appID}
@@ -79,6 +79,28 @@ const Home = ({ user, setUser, setRoute }) => {
                     getApplications={getApplications} />
             )
         })
+    }
+
+    const renderTableAdd = () => {
+        return (
+            <tr className="stripe-dark w-100">
+                <td className="pa3"><input type="text" id="AddCompany" onChange={(evt) => { setNewApplication({ ...newApplication, newCompany: evt.target.value }) }} /></td>
+                <td className="pa3"><input type="text" id="AddRole" onChange={(evt) => { setNewApplication({ ...newApplication, newRole: evt.target.value }) }} /></td>
+                <td className="pa3"><input type="text" id="AddLocation" onChange={(evt) => { setNewApplication({ ...newApplication, newLocation: evt.target.value }) }} /></td>
+                <td className="pa3"><input type="date" id="AddDate" onChange={(evt) => { setNewApplication({ ...newApplication, newDate: evt.target.value }) }} /></td>
+                <td className="pa3">
+                    <select id="AddResponse" onChange={(evt) => { setNewApplication({ ...newApplication, newResponse: evt.target.value }) }}>
+                        <option>None</option>
+                        <option>Interview</option>
+                        <option>Accepted</option>
+                        <option>Rejected</option>
+                    </select>
+                </td>
+                <td className="pa3"><input type="url" id="AddLink" onChange={(evt) => { setNewApplication({ ...newApplication, newLink: evt.target.value }) }} /></td>
+                <td className="pa3"><input type="text" id="AddNotes" onChange={(evt) => { setNewApplication({ ...newApplication, newNotes: evt.target.value }) }} /></td>
+                <td className="pa1"><button id="AddApplication" value="Add" onClick={() => addApplication()} >Add</button></td>
+                <td className="pa1"></td>
+            </tr>)
     }
     // eslint-disable-next-line
     useEffect(() => getApplications(), []);//Safe to ignore warning on this because getApplications is not dependent on state
@@ -108,28 +130,19 @@ const Home = ({ user, setUser, setRoute }) => {
                         <thead>
                             <tr className="stripe-dark">
                                 <th className="fw6 tl pa3 bg-white" onClick={() => sortApplications("appCompany")} >Company</th>
-                                <th className="fw6 tl pa3 bg-white"onClick={() => sortApplications("appRole") }>Role</th>
-                                <th className="fw6 tl pa3 bg-white"onClick={() => sortApplications("appLocation") }>Location</th>
-                                <th className="fw6 tl pa3 bg-white"onClick={() => sortApplications("appDate") }>Date Applied</th>
-                                <th className="fw6 tl pa3 bg-white"onClick={() => sortApplications("appResponse") }>Response</th>
-                                <th className="fw6 tl pa3 bg-white"onClick={() => sortApplications("appLink") }>Link to Posting</th>
-                                <th className="fw6 tl pa3 bg-white"onClick={() => sortApplications("appNotes") }>Notes</th>
+                                <th className="fw6 tl pa3 bg-white" onClick={() => sortApplications("appRole")}>Role</th>
+                                <th className="fw6 tl pa3 bg-white" onClick={() => sortApplications("appLocation")}>Location</th>
+                                <th className="fw6 tl pa3 bg-white" onClick={() => sortApplications("appDate")}>Date Applied</th>
+                                <th className="fw6 tl pa3 bg-white" onClick={() => sortApplications("appResponse")}>Response</th>
+                                <th className="fw6 tl pa3 bg-white" onClick={() => sortApplications("appLink")}>Link to Posting</th>
+                                <th className="fw6 tl pa3 bg-white" onClick={() => sortApplications("appNotes")}>Notes</th>
 
                             </tr>
                         </thead>
                         <tbody className="lh-copy">
-                            <tr className="stripe-dark w-100">
-                                <td className="pa3"><input type="text" id="AddCompany" onChange={(evt) => { setNewApplication({ ...newApplication, newCompany: evt.target.value }) }} /></td>
-                                <td className="pa3"><input type="text" id="AddRole" onChange={(evt) => { setNewApplication({ ...newApplication, newRole: evt.target.value }) }} /></td>
-                                <td className="pa3"><input type="text" id="AddLocation" onChange={(evt) => { setNewApplication({ ...newApplication, newLocation: evt.target.value }) }} /></td>
-                                <td className="pa3"><input type="date" id="AddDate" onChange={(evt) => { setNewApplication({ ...newApplication, newDate: evt.target.value }) }} /></td>
-                                <td className="pa3"><input type="text" id="AddResponse" onChange={(evt) => { setNewApplication({ ...newApplication, newResponse: evt.target.value }) }} /></td>
-                                <td className="pa3"><input type="text" id="AddLink" onChange={(evt) => { setNewApplication({ ...newApplication, newLink: evt.target.value }) }} /></td>
-                                <td className="pa3"><input type="text" id="AddNotes" onChange={(evt) => { setNewApplication({ ...newApplication, newNotes: evt.target.value }) }} /></td>
-                                <td className="pa1"><button id="AddApplication" value="Add" onClick={() => addApplication()} >Add</button></td>
-                                <td className="pa1"></td>
-                            </tr>
-                            {renderTable()}
+                            {renderTableAdd()}
+                            {renderTableBody()}
+
                         </tbody>
                     </table>
                 </div>
