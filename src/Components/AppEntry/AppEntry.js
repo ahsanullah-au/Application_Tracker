@@ -43,7 +43,7 @@ const AppEntry = ({ appID, appCompany, appRole, appLocation, appDate, appRespons
                 })
             })
                 .then(response => response.json())
-                .then(getApplications())
+                .then(data => getApplications())
 
 
 

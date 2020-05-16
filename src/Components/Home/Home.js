@@ -84,21 +84,21 @@ const Home = ({ user, setUser, setRoute }) => {
     const renderTableAdd = () => {
         return (
             <tr className="stripe-dark w-100">
-                <td className="pa3"><input type="text" id="AddCompany" onChange={(evt) => { setNewApplication({ ...newApplication, newCompany: evt.target.value }) }} /></td>
-                <td className="pa3"><input type="text" id="AddRole" onChange={(evt) => { setNewApplication({ ...newApplication, newRole: evt.target.value }) }} /></td>
-                <td className="pa3"><input type="text" id="AddLocation" onChange={(evt) => { setNewApplication({ ...newApplication, newLocation: evt.target.value }) }} /></td>
-                <td className="pa3"><input type="date" id="AddDate" onChange={(evt) => { setNewApplication({ ...newApplication, newDate: evt.target.value }) }} /></td>
+                <td className="pa3"><input type="text" id="AddCompany" form='AddForm' onChange={(evt) => { setNewApplication({ ...newApplication, newCompany: evt.target.value }) }} /></td>
+                <td className="pa3"><input type="text" id="AddRole" form='AddForm' onChange={(evt) => { setNewApplication({ ...newApplication, newRole: evt.target.value }) }} /></td>
+                <td className="pa3"><input type="text" id="AddLocation" form='AddForm' onChange={(evt) => { setNewApplication({ ...newApplication, newLocation: evt.target.value }) }} /></td>
+                <td className="pa3"><input type="date" id="AddDate" form='AddForm' onChange={(evt) => { setNewApplication({ ...newApplication, newDate: evt.target.value }) }} /></td>
                 <td className="pa3">
-                    <select id="AddResponse" onChange={(evt) => { setNewApplication({ ...newApplication, newResponse: evt.target.value }) }}>
+                    <select id="AddResponse" form='AddForm' onChange={(evt) => { setNewApplication({ ...newApplication, newResponse: evt.target.value }) }}>
                         <option>None</option>
                         <option>Interview</option>
                         <option>Accepted</option>
                         <option>Rejected</option>
                     </select>
                 </td>
-                <td className="pa3"><input type="url" id="AddLink" onChange={(evt) => { setNewApplication({ ...newApplication, newLink: evt.target.value }) }} /></td>
-                <td className="pa3"><input type="text" id="AddNotes" onChange={(evt) => { setNewApplication({ ...newApplication, newNotes: evt.target.value }) }} /></td>
-                <td className="pa1"><button id="AddApplication" value="Add" onClick={() => addApplication()} >Add</button></td>
+                <td className="pa3"><input type="url" id="AddLink" form='AddForm' onChange={(evt) => { setNewApplication({ ...newApplication, newLink: evt.target.value }) }} /></td>
+                <td className="pa3"><input type="text" id="AddNotes" form='AddForm' onChange={(evt) => { setNewApplication({ ...newApplication, newNotes: evt.target.value }) }} /></td>
+                <td className="pa1"><button type="submit"  id="AddApplication" form='AddForm' value="Add" onClick={() => addApplication()} >Add</button></td>
                 <td className="pa1"></td>
             </tr>)
     }
