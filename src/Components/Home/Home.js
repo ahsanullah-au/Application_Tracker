@@ -9,6 +9,8 @@ const Home = ({ user, setUser, setRoute }) => {
 
     const [sortState, setSortState] = useState({ sortType: "ID", sortDirection: 1 })
 
+    const [tableRoute, setTableRoute] = useState("table");
+
     const getApplications = () => {
         if (user.id) {
             fetch('http://localhost:3001/applications/' + user.id, {
@@ -43,6 +45,7 @@ const Home = ({ user, setUser, setRoute }) => {
                 .then(response => response.json())
                 .then(data => {
                     getApplications();
+                    setTableRoute("table");
                 })
         }
     }
@@ -83,72 +86,120 @@ const Home = ({ user, setUser, setRoute }) => {
 
     const renderTableAdd = () => {
         return (
-            <tr className="stripe-dark w-100">
-                <td className="pa3"><input type="text" id="AddCompany" form='AddForm' onChange={(evt) => { setNewApplication({ ...newApplication, newCompany: evt.target.value }) }} /></td>
-                <td className="pa3"><input type="text" id="AddRole" form='AddForm' onChange={(evt) => { setNewApplication({ ...newApplication, newRole: evt.target.value }) }} /></td>
-                <td className="pa3"><input type="text" id="AddLocation" form='AddForm' onChange={(evt) => { setNewApplication({ ...newApplication, newLocation: evt.target.value }) }} /></td>
-                <td className="pa3"><input type="date" id="AddDate" form='AddForm' onChange={(evt) => { setNewApplication({ ...newApplication, newDate: evt.target.value }) }} /></td>
-                <td className="pa3">
-                    <select id="AddResponse" form='AddForm' onChange={(evt) => { setNewApplication({ ...newApplication, newResponse: evt.target.value }) }}>
-                        <option>None</option>
-                        <option>Interview</option>
-                        <option>Accepted</option>
-                        <option>Rejected</option>
-                    </select>
-                </td>
-                <td className="pa3"><input type="url" id="AddLink" form='AddForm' onChange={(evt) => { setNewApplication({ ...newApplication, newLink: evt.target.value }) }} /></td>
-                <td className="pa3"><input type="text" id="AddNotes" form='AddForm' onChange={(evt) => { setNewApplication({ ...newApplication, newNotes: evt.target.value }) }} /></td>
-                <td className="pa1"><button type="submit"  id="AddApplication" form='AddForm' value="Add" onClick={() => addApplication()} >Add</button></td>
-                <td className="pa1"></td>
-            </tr>)
+            <article className="pa4 black-80">
+                <form action="sign-up_submit" acceptCharset="utf-8" method="post">
+                    <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
+                        <div className="mt3">
+                            <label className="db fw4 lh-copy f6" >Company</label>
+                            <input type="text" id="AddCompany" onChange={(evt) => { setNewApplication({ ...newApplication, newCompany: evt.target.value }) }} />
+                        </div>
+                        <div className="mt3">
+                            <label className="db fw4 lh-copy f6" >Role</label>
+                            <input type="text" id="AddRole" onChange={(evt) => { setNewApplication({ ...newApplication, newRole: evt.target.value }) }} />
+                        </div>
+                        <div className="mt3">
+                            <label className="db fw4 lh-copy f6" >Location</label>
+                            <input type="text" id="AddLocation" onChange={(evt) => { setNewApplication({ ...newApplication, newLocation: evt.target.value }) }} />
+                        </div>
+                        <div className="mt3">
+                            <label className="db fw4 lh-copy f6" >Date</label>
+                            <input type="date" id="AddDate" onChange={(evt) => { setNewApplication({ ...newApplication, newDate: evt.target.value }) }} />
+                        </div>
+                        <div className="mt3">
+                            <label className="db fw4 lh-copy f6" >Response</label>
+                            <select id="AddResponse" onChange={(evt) => { setNewApplication({ ...newApplication, newResponse: evt.target.value }) }}>
+                                <option>None</option>
+                                <option>Interview</option>
+                                <option>Accepted</option>
+                                <option>Rejected</option>
+                            </select>
+                        </div>
+                        <div className="mt3">
+                            <label className="db fw4 lh-copy f6" >Link</label>
+                            <input type="url" id="AddLink" onChange={(evt) => { setNewApplication({ ...newApplication, newLink: evt.target.value }) }} />
+                        </div>
+                        <div className="mt3">
+                            <label className="db fw4 lh-copy f6" >Notes</label>
+                            <input type="text" id="AddNotes" onChange={(evt) => { setNewApplication({ ...newApplication, newNotes: evt.target.value }) }} />
+                        </div>
+
+                    </fieldset>
+                    <div className="mt3">
+                        <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6"
+                            type="submit"
+                            value="Add"
+                            onClick={() => addApplication()}
+                        />
+                    </div>
+                    <div className="lh-copy mt3">
+                        <a href="#0"
+                            className="f6 link dim black db"
+                            onClick={() => setTableRoute("table")} >Cancel</a>
+                    </div>
+                </form>
+            </article>
+        )
     }
     // eslint-disable-next-line
     useEffect(() => getApplications(), []);//Safe to ignore warning on this because getApplications is not dependent on state
 
-    return (
 
-        < div >
-            <nav style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <p onClick={() => {
-                    setUser({
-                        id: "",
-                        firstname: "",
-                        lastname: "",
-                        email: "",
-                        numApps: "",
-                        lastAppDate: ""
-                    })
-                    setRoute('SignIn');
-                }
-                }
-                    className='f2 link dim black underline pa3 pointer'>Sign Out</p>
-            </nav>
+    if (tableRoute === "table") {
+        return (
 
-            <div className="pa4">
-                <div className="overflow-auto">
-                    <table className="f6 w-100 mw8 center" cellSpacing="0">
-                        <thead>
-                            <tr className="stripe-dark">
-                                <th className="fw6 tl pa3 bg-white" onClick={() => sortApplications("appCompany")} >Company</th>
-                                <th className="fw6 tl pa3 bg-white" onClick={() => sortApplications("appRole")}>Role</th>
-                                <th className="fw6 tl pa3 bg-white" onClick={() => sortApplications("appLocation")}>Location</th>
-                                <th className="fw6 tl pa3 bg-white" onClick={() => sortApplications("appDate")}>Date Applied</th>
-                                <th className="fw6 tl pa3 bg-white" onClick={() => sortApplications("appResponse")}>Response</th>
-                                <th className="fw6 tl pa3 bg-white" onClick={() => sortApplications("appLink")}>Link to Posting</th>
-                                <th className="fw6 tl pa3 bg-white" onClick={() => sortApplications("appNotes")}>Notes</th>
+            < div >
+                <nav style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <p onClick={() => {
+                        setUser({
+                            id: "",
+                            firstname: "",
+                            lastname: "",
+                            email: "",
+                            numApps: "",
+                            lastAppDate: ""
+                        })
+                        setRoute('SignIn');
+                    }
+                    }
+                        className='f2 link dim black underline pa3 pointer'>Sign Out</p>
+                </nav>
+                <button onClick={() => setTableRoute("Add")}>Add Entry</button>
 
-                            </tr>
-                        </thead>
-                        <tbody className="lh-copy">
-                            {renderTableAdd()}
-                            {renderTableBody()}
+                <div className="pa4">
+                    <div className="overflow-auto">
+                        <table className="f6 w-100 mw8 center" cellSpacing="0">
+                            <thead>
+                                <tr className="stripe-dark">
+                                    <th className="fw6 tl pa3 bg-white" onClick={() => sortApplications("appCompany")} >Company</th>
+                                    <th className="fw6 tl pa3 bg-white" onClick={() => sortApplications("appRole")}>Role</th>
+                                    <th className="fw6 tl pa3 bg-white" onClick={() => sortApplications("appLocation")}>Location</th>
+                                    <th className="fw6 tl pa3 bg-white" onClick={() => sortApplications("appDate")}>Date Applied</th>
+                                    <th className="fw6 tl pa3 bg-white" onClick={() => sortApplications("appResponse")}>Response</th>
+                                    <th className="fw6 tl pa3 bg-white" onClick={() => sortApplications("appLink")}>Link to Posting</th>
+                                    <th className="fw6 tl pa3 bg-white" onClick={() => sortApplications("appNotes")}>Notes</th>
 
-                        </tbody>
-                    </table>
+                                </tr>
+                            </thead>
+                            <tbody className="lh-copy">
+
+                                {renderTableBody()}
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+            </div >
+        )
+
+    }
+    else {
+        return (
+            <div>
+                {renderTableAdd()}
             </div>
-        </div >
-    )
+        )
+    }
+
 
 }
 
