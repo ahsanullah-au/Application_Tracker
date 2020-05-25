@@ -1,15 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import AppEntry from "../AppEntry/AppEntry"
 
-const Home = ({ user, setUser, setRoute }) => {
+export interface userType {
+    id: string,
+    firstname: string,
+    lastname: string,
+    email: string,
+    numApps: string,
+    lastAppDate: string
+}
 
-    const [appData, setAppData] = useState([])
+interface HomeType {
+    user: userType,
+    setUser: Function,
+    setRoute: Function
+}
 
-    const [newApplication, setNewApplication] = useState([])
+
+
+
+const Home = ({ user, setUser, setRoute }: HomeType) => {
+
+    const [appData, setAppData] = useState<Array<{ [key: string]: string }>>([{ //Lets you index by string, for sorting function
+        appID: "",
+        appCompany: "",
+        appRole: "",
+        appLocation: "",
+        appDate: "",
+        appResponse: "",
+        appLink: "",
+        appNotes: ""
+    }])
+
+    const [newApplication, setNewApplication] = useState({
+        newCompany: '',
+        newRole: '',
+        newLocation: '',
+        newDate: '',
+        newResponse: '',
+        newLink: '',
+        newNotes: ''
+    })
 
     const [sortState, setSortState] = useState({ sortType: "ID", sortDirection: 1 })
 
     const [tableRoute, setTableRoute] = useState("table");
+
+
+    // eslint-disable-next-line
+    useEffect(() => getApplications(), []);//Safe to ignore warning on this because getApplications is not dependent on state
 
     const getApplications = () => {
         if (user.id) {
@@ -140,8 +179,7 @@ const Home = ({ user, setUser, setRoute }) => {
             </article>
         )
     }
-    // eslint-disable-next-line
-    useEffect(() => getApplications(), []);//Safe to ignore warning on this because getApplications is not dependent on state
+
 
 
     if (tableRoute === "table") {
