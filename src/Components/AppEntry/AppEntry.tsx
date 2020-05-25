@@ -1,6 +1,18 @@
 import React, { useState } from 'react';
 
-const AppEntry = ({ appID, appCompany, appRole, appLocation, appDate, appResponse, appLink, appNotes, getApplications }) => {
+interface AppEntryProps {
+    appID: string,
+    appCompany: string,
+    appRole: string,
+    appLocation: string,
+    appDate: string,
+    appResponse: string,
+    appLink: string,
+    appNotes: string,
+    getApplications: Function
+}
+
+const AppEntry = ({ appID, appCompany, appRole, appLocation, appDate, appResponse, appLink, appNotes, getApplications }:AppEntryProps) => {
 
     const updateApplication = () => {
         if (appID && newApplication.newCompany && newApplication.newRole && newApplication.newLocation && newApplication.newDate && newApplication.newResponse && newApplication.newLink) {
@@ -73,7 +85,7 @@ const AppEntry = ({ appID, appCompany, appRole, appLocation, appDate, appRespons
                 <td className="pa3">{appResponse}</td>
                 <td className="pa3">
                     <a href={appLink}>{appLink}</a>
-                    </td>
+                </td>
                 <td className="pa3">{appNotes}</td>
                 <td className="pa1"><button id={"EditApplication" + appID} value="Edit" onClick={() => setModifyState(1)}>Edit</button></td>
                 <td className="pa1"><button id={"DeleteApplication" + appID} value="Delete" onClick={deleteApplication}>Delete</button></td>
