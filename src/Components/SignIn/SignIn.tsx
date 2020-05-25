@@ -1,6 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent, MouseEvent } from 'react';
 
-const SignIn = ({ route, setRoute, setUser }) => {
+interface SignInProps {
+    route: string,
+    setRoute: Function,
+    setUser: Function
+}
+
+const SignIn = ({ route, setRoute, setUser }:SignInProps) => {
 
     const [signInState, setSignInState] = useState({
         email: '',
@@ -8,20 +14,20 @@ const SignIn = ({ route, setRoute, setUser }) => {
     })
 
 
-    const onEmailChange = (event) => {
+    const onEmailChange = (event:ChangeEvent) => {
         setSignInState({
-            email: event.target.value,
+            email: (event.target as HTMLTextAreaElement).value,
             password: signInState.password
         })
     }
-    const onPasswordChange = (event) => {
+    const onPasswordChange = (event:ChangeEvent) => {
         setSignInState({
             email: signInState.email,
-            password: event.target.value
+            password: (event.target as HTMLTextAreaElement).value
         })
     }
 
-    const onSubmitSignin = (event) => {
+    const onSubmitSignin = (event:MouseEvent) => {
         event.preventDefault();
         if (signInState.email && signInState.password) {
             fetch('http://localhost:3001/signin', {

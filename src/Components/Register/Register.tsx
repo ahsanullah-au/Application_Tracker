@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent, MouseEvent  } from 'react';
 
+interface RegisterProps {
+    route: string,
+    setRoute: Function,
+    setUser: Function
+}
 
-
-const Register = ({ route, setRoute, setUser }) => {
+const Register = ({ route, setRoute, setUser }:RegisterProps) => {
 
     const [registerState, setRegisterState] = useState({
         firstname: '',
@@ -12,42 +16,42 @@ const Register = ({ route, setRoute, setUser }) => {
     })
 
 
-    const onFirstNameChange = (event) => {
+    const onFirstNameChange = (event:ChangeEvent) => {
         setRegisterState({
-            firstname: event.target.value,
+            firstname: (event.target as HTMLTextAreaElement).value,
             lastname: registerState.lastname,
             email: registerState.email,
             password: registerState.password
         })
     }
 
-    const onLastNameChange = (event) => {
+    const onLastNameChange = (event:ChangeEvent) => {
         setRegisterState({
             firstname: registerState.firstname,
-            lastname: event.target.value,
+            lastname: (event.target as HTMLTextAreaElement).value,
             email: registerState.email,
             password: registerState.password
         })
     }
 
-    const onEmailChange = (event) => {
+    const onEmailChange = (event:ChangeEvent) => {
         setRegisterState({
             firstname: registerState.firstname,
             lastname: registerState.lastname,
-            email: event.target.value,
+            email: (event.target as HTMLTextAreaElement).value,
             password: registerState.password
         })
     }
-    const onPasswordChange = (event) => {
+    const onPasswordChange = (event:ChangeEvent) => {
         setRegisterState({
             firstname: registerState.firstname,
             lastname: registerState.lastname,
             email: registerState.email,
-            password: event.target.value
+            password: (event.target as HTMLTextAreaElement).value
         })
     }
 
-    const onSubmitRegister = (event) => {
+    const onSubmitRegister = (event:MouseEvent ) => {
         event.preventDefault();
         fetch('http://localhost:3001/register', {
             method: 'post',
