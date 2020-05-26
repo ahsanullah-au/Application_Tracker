@@ -9,7 +9,7 @@ export interface userType {
   firstname: string,
   lastname: string,
   email: string,
-  numApps: string,
+  numApps: number,
   lastAppDate: string
 }
 
@@ -20,7 +20,7 @@ function App() {
     firstname: "",
     lastname: "",
     email: "",
-    numApps: "",
+    numApps: 0,
     lastAppDate: ""
   })
 

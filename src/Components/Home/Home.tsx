@@ -1,14 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import AppEntry from "../AppEntry/AppEntry"
 
-export interface userType {
-    id: string,
-    firstname: string,
-    lastname: string,
-    email: string,
-    numApps: string,
-    lastAppDate: string
-}
+import type {userType} from "../../App"
 
 interface HomeType {
     user: userType,
@@ -185,7 +178,7 @@ const Home = ({ user, setUser, setRoute }: HomeType) => {
     if (tableRoute === "table") {
         return (
 
-            < div >
+            <Fragment>
                 <nav style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <p onClick={() => {
                         setUser({
@@ -226,15 +219,15 @@ const Home = ({ user, setUser, setRoute }: HomeType) => {
                         </table>
                     </div>
                 </div>
-            </div >
+            </Fragment>
         )
 
     }
     else {
         return (
-            <div>
+            <Fragment>
                 {renderTableAdd()}
-            </div>
+            </Fragment>
         )
     }
 
