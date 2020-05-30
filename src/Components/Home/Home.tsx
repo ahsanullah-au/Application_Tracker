@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import AppEntry from "../AppEntry/AppEntry"
+import AddForm from "../AddForm/AddForm"
 
 import type {userType} from "../../App"
 
@@ -8,9 +9,6 @@ interface HomeType {
     setUser: Function,
     setRoute: Function
 }
-
-
-
 
 const Home = ({ user, setUser, setRoute }: HomeType) => {
 
@@ -116,65 +114,6 @@ const Home = ({ user, setUser, setRoute }: HomeType) => {
         })
     }
 
-    const renderTableAdd = () => {
-        return (
-            <article className="pa4 black-80">
-                <form action="sign-up_submit" acceptCharset="utf-8" method="post">
-                    <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-                        <div className="mt3">
-                            <label className="db fw4 lh-copy f6" >Company</label>
-                            <input type="text" id="AddCompany" onChange={(evt) => { setNewApplication({ ...newApplication, newCompany: evt.target.value }) }} />
-                        </div>
-                        <div className="mt3">
-                            <label className="db fw4 lh-copy f6" >Role</label>
-                            <input type="text" id="AddRole" onChange={(evt) => { setNewApplication({ ...newApplication, newRole: evt.target.value }) }} />
-                        </div>
-                        <div className="mt3">
-                            <label className="db fw4 lh-copy f6" >Location</label>
-                            <input type="text" id="AddLocation" onChange={(evt) => { setNewApplication({ ...newApplication, newLocation: evt.target.value }) }} />
-                        </div>
-                        <div className="mt3">
-                            <label className="db fw4 lh-copy f6" >Date</label>
-                            <input type="date" id="AddDate" onChange={(evt) => { setNewApplication({ ...newApplication, newDate: evt.target.value }) }} />
-                        </div>
-                        <div className="mt3">
-                            <label className="db fw4 lh-copy f6" >Response</label>
-                            <select id="AddResponse" onChange={(evt) => { setNewApplication({ ...newApplication, newResponse: evt.target.value }) }}>
-                                <option>None</option>
-                                <option>Interview</option>
-                                <option>Accepted</option>
-                                <option>Rejected</option>
-                            </select>
-                        </div>
-                        <div className="mt3">
-                            <label className="db fw4 lh-copy f6" >Link</label>
-                            <input type="url" id="AddLink" onChange={(evt) => { setNewApplication({ ...newApplication, newLink: evt.target.value }) }} />
-                        </div>
-                        <div className="mt3">
-                            <label className="db fw4 lh-copy f6" >Notes</label>
-                            <input type="text" id="AddNotes" onChange={(evt) => { setNewApplication({ ...newApplication, newNotes: evt.target.value }) }} />
-                        </div>
-
-                    </fieldset>
-                    <div className="mt3">
-                        <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6"
-                            type="submit"
-                            value="Add"
-                            onClick={() => addApplication()}
-                        />
-                    </div>
-                    <div className="lh-copy mt3">
-                        <a href="#0"
-                            className="f6 link dim black db"
-                            onClick={() => setTableRoute("table")} >Cancel</a>
-                    </div>
-                </form>
-            </article>
-        )
-    }
-
-
-
     if (tableRoute === "table") {
         return (
 
@@ -225,9 +164,7 @@ const Home = ({ user, setUser, setRoute }: HomeType) => {
     }
     else {
         return (
-            <Fragment>
-                {renderTableAdd()}
-            </Fragment>
+            <AddForm newApplication={newApplication} setNewApplication={setNewApplication} addApplication={addApplication} setTableRoute={setTableRoute}/>
         )
     }
 
