@@ -23,15 +23,6 @@ const Home = ({ user, setUser, setRoute }: HomeType) => {
         appNotes: ""
     }])
 
-    const [newApplication, setNewApplication] = useState({
-        newCompany: '',
-        newRole: '',
-        newLocation: '',
-        newDate: '',
-        newResponse: '',
-        newLink: '',
-        newNotes: ''
-    })
 
     const [sortState, setSortState] = useState({ sortType: "ID", sortDirection: 1 })
 
@@ -55,30 +46,7 @@ const Home = ({ user, setUser, setRoute }: HomeType) => {
 
     }
 
-    const addApplication = () => {
-        if (user.id && newApplication.newCompany && newApplication.newRole && newApplication.newLocation && newApplication.newDate && newApplication.newResponse && newApplication.newLink) {
-            fetch('http://localhost:3001/applications', {
-                method: 'post',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    userID: user.id,
-                    appCompany: newApplication.newCompany,
-                    appRole: newApplication.newRole,
-                    appLocation: newApplication.newLocation,
-                    appDate: newApplication.newDate,
-                    appResponse: newApplication.newResponse,
-                    appLink: newApplication.newLink,
-                    appNotes: newApplication.newNotes
-
-                })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    getApplications();
-                    setTableRoute("table");
-                })
-        }
-    }
+    
 
     const sortApplications = (tempSortType = sortState.sortType, changeSortDirection = 1) => {
         setSortState({
@@ -164,7 +132,7 @@ const Home = ({ user, setUser, setRoute }: HomeType) => {
     }
     else {
         return (
-            <AddForm newApplication={newApplication} setNewApplication={setNewApplication} addApplication={addApplication} setTableRoute={setTableRoute}/>
+            <AddForm user={user} setTableRoute={setTableRoute} getApplications={getApplications}/>
         )
     }
 
