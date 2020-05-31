@@ -1,25 +1,28 @@
 import React, { useState } from 'react';
 
-import {userType} from "../../App"
+import { userType } from "../../App"
 
 interface newApplicationTypes {
-    user: userType,    
+    user: userType,
     setTableRoute: Function,
     getApplications: Function
 }
 
-const AddForm = ({user, setTableRoute, getApplications }: newApplicationTypes) => {
+const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) => {
     const [addFormRoute, setAddFormRoute] = useState("choice")
+
+    const [scraperInput, setScraperInput] = useState({
+        scraperURL: "",
+        scraperSite: "LinkedIn"
+    })
 
     const [scrapedValues, setScrapedValues] = useState({
         jobTitle: "",
         jobLocation: "",
         jobCompanyName: "",
         jobURL: ""
-
     })
 
-    
     const [newApplication, setNewApplication] = useState({
         newCompany: scrapedValues.jobCompanyName,
         newRole: scrapedValues.jobTitle,
@@ -29,6 +32,45 @@ const AddForm = ({user, setTableRoute, getApplications }: newApplicationTypes) =
         newLink: scrapedValues.jobURL,
         newNotes: ''
     })
+
+    const getScraperValues = () => {
+        if (scraperInput.scraperURL) {
+            fetch('http://localhost:3001/scraper', {
+                method: 'post',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    URL: scraperInput.scraperURL,
+                    site: scraperInput.scraperSite
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    setScrapedValues(data)
+                    return scrapedValues
+
+                })
+                .then(data => {//Remove this and use useEffect with scrapedValue check
+                    console.log(scrapedValues)
+                    setNewApplication({
+                        newCompany: scrapedValues.jobCompanyName,
+                        newRole: scrapedValues.jobTitle,
+                        newLocation: scrapedValues.jobLocation,
+                        newDate: newApplication.newDate,
+                        newResponse: newApplication.newResponse,
+                        newLink: scrapedValues.jobURL,
+                        newNotes: newApplication.newNotes
+                    })
+
+                })
+
+                .then(data => setAddFormRoute("form"))
+
+
+
+        }
+
+    }
 
     const addApplication = () => {
         console.log(newApplication.newCompany)
@@ -134,19 +176,22 @@ const AddForm = ({user, setTableRoute, getApplications }: newApplicationTypes) =
                     <form acceptCharset="utf-8" method="post">
                         <div className="mt3">
                             <label className="db fw4 lh-copy f6" >URL to Scrape</label>
-                            <input type="url" id="ScraperURL" />
+                            <input type="url"
+                                id="ScraperURL"
+                                onChange={(evt) => { setScraperInput({ ...scraperInput, scraperURL: evt.target.value }) }} />
                         </div>
                         <div className="mt3">
                             <label className="db fw4 lh-copy f6" >Type of Posting</label>
-                            <select id="AddResponse" onChange={(evt) => { setNewApplication({ ...newApplication, newResponse: evt.target.value }) }}>
+                            <select id="AddResponse" onChange={(evt) => { setScraperInput({ ...scraperInput, scraperSite: evt.target.value }) }}>
                                 <option>LinkedIn</option>
                                 <option>Indeed</option>
                             </select>
                         </div>
                         <div className="mt3">
                             <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6"
-                                type="submit"
+                                type="button"
                                 value="Scrape"
+                                onClick={() => getScraperValues()}
 
                             />
                         </div>
