@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { userType } from "../../App"
 
@@ -28,10 +28,22 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
         newRole: scrapedValues.jobTitle,
         newLocation: scrapedValues.jobLocation,
         newDate: '',
-        newResponse: '',
+        newResponse: 'None',
         newLink: scrapedValues.jobURL,
         newNotes: ''
     })
+
+    useEffect(() => {
+        setNewApplication({
+            newCompany: scrapedValues.jobCompanyName,
+            newRole: scrapedValues.jobTitle,
+            newLocation: scrapedValues.jobLocation,
+            newDate: newApplication.newDate,
+            newResponse: newApplication.newResponse,
+            newLink: scrapedValues.jobURL,
+            newNotes: newApplication.newNotes
+        })
+    }, [scrapedValues])
 
     const getScraperValues = () => {
         if (scraperInput.scraperURL) {
@@ -45,25 +57,10 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data)
                     setScrapedValues(data)
                     return scrapedValues
 
                 })
-                .then(data => {//Remove this and use useEffect with scrapedValue check
-                    console.log(scrapedValues)
-                    setNewApplication({
-                        newCompany: scrapedValues.jobCompanyName,
-                        newRole: scrapedValues.jobTitle,
-                        newLocation: scrapedValues.jobLocation,
-                        newDate: newApplication.newDate,
-                        newResponse: newApplication.newResponse,
-                        newLink: scrapedValues.jobURL,
-                        newNotes: newApplication.newNotes
-                    })
-
-                })
-
                 .then(data => setAddFormRoute("form"))
 
 
@@ -73,7 +70,6 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
     }
 
     const addApplication = () => {
-        console.log(newApplication.newCompany)
         if (user.id && newApplication.newCompany && newApplication.newRole && newApplication.newLocation && newApplication.newDate && newApplication.newResponse && newApplication.newLink) {
             fetch('http://localhost:3001/applications', {
                 method: 'post',
