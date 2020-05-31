@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './App.css';
 import SignIn from './Components/SignIn/SignIn';
-import Register from './Components/Register/Register'
-import Home from './Components/Home/Home'
+import Register from './Components/Register/Register';
+import Home from './Components/Home/Home';
 
 export interface userType {
   id: string,
@@ -14,22 +14,22 @@ export interface userType {
 }
 
 function App() {
-  const [route, setRoute] = useState("SignIn");
+  const [route, setRoute] = useState('SignIn');
   const [user, setUser] = useState<userType>({
-    id: "",
-    firstname: "",
-    lastname: "",
-    email: "",
+    id: '',
+    firstname: '',
+    lastname: '',
+    email: '',
     numApps: 0,
-    lastAppDate: ""
-  })
+    lastAppDate: '',
+  });
 
   return (
     <div className="App">
       {
-        (route === "SignIn") ? <SignIn route={route} setRoute={setRoute} setUser={setUser} /> :
-          (route === 'Register') ? <Register route={route} setRoute={setRoute} setUser={setUser} /> :
-            <Home user={user} setRoute={setRoute} setUser={setUser} />
+        (route === 'SignIn') ? <SignIn route={route} setRoute={setRoute} setUser={setUser} />
+          : (route === 'Register') ? <Register route={route} setRoute={setRoute} setUser={setUser} />
+            : <Home user={user} setRoute={setRoute} setUser={setUser} />
       }
 
     </div>
