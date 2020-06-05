@@ -6,9 +6,10 @@ Front End of a webapp that helps you keep track of your job applications. Uses R
 
 * Secure Signin/Register
 * Add, Modify, Remove applications to your list of applications
+* Linkedin/Indeed parsing to ease addition of applications (Works for self-hosted Indeed postings)
+
 
 # Upcoming:
 
-* Linkedin/Indeed integrations/parsing to ease addition of applications
 * File Storage/Linking to connect job applications and documents(Resume, Cover Letter)
 * Maps integration to show distances to job locations
