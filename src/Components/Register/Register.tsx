@@ -66,7 +66,7 @@ const Register = ({ route, setRoute, setUser }:RegisterProps) => {
       .then((user) => {
         if (user.id) {
           setUser(user);
-          setRoute('home');
+          setRoute('Home');
         }
       });
   };

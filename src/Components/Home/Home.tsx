@@ -5,9 +5,9 @@ import AddForm from '../AddForm/AddForm';
 import type { userType } from '../../App';
 
 interface HomeType {
-    user: userType,
-    setUser: Function,
-    setRoute: Function
+  user: userType,
+  setUser: Function,
+  setRoute: Function
 }
 
 const Home = ({ user, setUser, setRoute }: HomeType) => {
@@ -29,7 +29,7 @@ const Home = ({ user, setUser, setRoute }: HomeType) => {
 
 
   // eslint-disable-next-line
-    useEffect(() => getApplications(), []);//Safe to ignore warning on this because getApplications is not dependent on state
+  useEffect(() => getApplications(), []);//Safe to ignore warning on this because getApplications is not dependent on state
 
   const getApplications = () => {
     if (user.id) {
@@ -92,6 +92,7 @@ const Home = ({ user, setUser, setRoute }: HomeType) => {
             Sign Out
           </p>
         </nav>
+
         <button onClick={() => setTableRoute('Add')}>Add Entry</button>
 
         <div className="pa4">
@@ -117,6 +118,16 @@ const Home = ({ user, setUser, setRoute }: HomeType) => {
             </table>
           </div>
         </div>
+        <nav style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <p
+            onClick={() => {
+              setRoute('Docs');
+            }}
+            className="f2 link dim black underline pa3 pointer"
+          >
+            Documents
+          </p>
+        </nav>
       </>
     );
   }

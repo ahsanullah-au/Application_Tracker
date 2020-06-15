@@ -41,7 +41,7 @@ const SignIn = ({ route, setRoute, setUser }:SignInProps) => {
         .then((user) => {
           if (user.id) {
             setUser(user);
-            setRoute('home');
+            setRoute('Home');
           }
         });
     }

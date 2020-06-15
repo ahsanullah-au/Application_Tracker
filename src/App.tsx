@@ -3,6 +3,7 @@ import './App.css';
 import SignIn from './Components/SignIn/SignIn';
 import Register from './Components/Register/Register';
 import Home from './Components/Home/Home';
+import DocumentsPage from './Components/DocumentsPage/DocumentsPage';
 
 export interface userType {
   id: string,
@@ -29,7 +30,8 @@ function App() {
       {
         (route === 'SignIn') ? <SignIn route={route} setRoute={setRoute} setUser={setUser} />
           : (route === 'Register') ? <Register route={route} setRoute={setRoute} setUser={setUser} />
-            : <Home user={user} setRoute={setRoute} setUser={setUser} />
+            : (route === 'Docs') ? <DocumentsPage user={user} setRoute={setRoute} />
+              :<Home user={user} setRoute={setRoute} setUser={setUser}  />
       }
 
     </div>
