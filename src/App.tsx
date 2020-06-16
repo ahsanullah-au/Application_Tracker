@@ -25,12 +25,15 @@ function App() {
     lastAppDate: '',
   });
 
+  const [userDocs, setUserDocs] = useState([{docID:"", docName: "", docData: new File(["default"], "default.pdf")}])
+  
+
   return (
     <div className="App">
       {
         (route === 'SignIn') ? <SignIn route={route} setRoute={setRoute} setUser={setUser} />
           : (route === 'Register') ? <Register route={route} setRoute={setRoute} setUser={setUser} />
-            : (route === 'Docs') ? <DocumentsPage user={user} setRoute={setRoute} />
+            : (route === 'Docs') ? <DocumentsPage user={user} setRoute={setRoute} userDocs={userDocs} setUserDocs={setUserDocs} />
               :<Home user={user} setRoute={setRoute} setUser={setUser}  />
       }
 
