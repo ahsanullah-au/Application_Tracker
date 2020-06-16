@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AppEntry from '../AppEntry/AppEntry';
 import AddForm from '../AddForm/AddForm';
 
-import type { userType } from '../../App';
+import type { userType, userDocsArrayType } from '../../App';
 
 interface HomeType {
   user: userType,

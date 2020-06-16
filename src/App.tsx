@@ -14,6 +14,14 @@ export interface userType {
   lastAppDate: string
 }
 
+interface userDocsType {
+  docID: string;
+  docName: string;
+  docData: File;
+}
+
+export interface userDocsArrayType extends Array<userDocsType>{}
+
 function App() {
   const [route, setRoute] = useState('SignIn');
   const [user, setUser] = useState<userType>({
@@ -25,7 +33,7 @@ function App() {
     lastAppDate: '',
   });
 
-  const [userDocs, setUserDocs] = useState([{docID:"", docName: "", docData: new File(["default"], "default.pdf")}])
+  const [userDocs, setUserDocs] = useState<userDocsArrayType>([{docID:"", docName: "", docData: new File(["default"], "default.pdf")}])
   
 
   return (

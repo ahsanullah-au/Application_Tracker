@@ -5,9 +5,10 @@ import type { userType } from '../../App';
 interface DocPageType {
     user: userType,
     setRoute: Function
+    userDocs: Array({})
 }
 
-const DocumentsPage = ({ user, setRoute }: DocPageType) => {
+const DocumentsPage = ({ user, setRoute, userDocs, setUserDocs }: DocPageType) => {
     return (
         <>
             <nav style={{ display: 'flex', justifyContent: 'flex-end' }}>
