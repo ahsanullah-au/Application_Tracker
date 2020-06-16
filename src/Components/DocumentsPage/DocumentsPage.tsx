@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
-import type { userType } from '../../App';
+import type { userType, userDocsArrayType } from '../../App';
 
 interface DocPageType {
     user: userType,
     setRoute: Function
-    userDocs: Array({})
+    userDocs: userDocsArrayType,
+    setUserDocs: Function
 }
 
 const DocumentsPage = ({ user, setRoute, userDocs, setUserDocs }: DocPageType) => {
