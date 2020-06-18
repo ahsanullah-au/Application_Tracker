@@ -20,6 +20,8 @@ const DocumentsPage = ({ user, setRoute, userDocs, setUserDocs }: DocPageType) =
 
     const [uploadState, setUploadState] = useState<UploadStateType>({ success: false, url: "", file: null })
 
+    const [uploadedDoc, setUploadedDoc] = useState({ filename: "", fileURL: "" })
+
     const handleUploadChange = (evt: ChangeEvent) => {
         setUploadState({ success: false, url: "", file: (evt.target as HTMLInputElement).files })
     }
@@ -27,7 +29,7 @@ const DocumentsPage = ({ user, setRoute, userDocs, setUserDocs }: DocPageType) =
     const handleUpload = () => {
         if (uploadState.file) {
             const file = uploadState.file[0]
-            console.log("Prep")
+
             fetch('http://localhost:3001/docStorage', {
                 method: 'POST', // or 'PUT'
                 headers: {
@@ -41,9 +43,19 @@ const DocumentsPage = ({ user, setRoute, userDocs, setUserDocs }: DocPageType) =
             })
                 .then(data => data.json())
                 .then(data => {
-                    fetch(data.signedRequest, { method: 'PUT', body: file })
-                    
+                    const url = data.returnURL
+                    return fetch(data.signedRequest, { method: 'PUT', body: file })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`${response.status}: ${response.statusText}`);
+                            }
+                            return url;
+                        })
+
                 })
+                .then(url =>
+                    setUploadedDoc({filename: file.name, fileURL: url})
+                )
 
         }
 
@@ -60,6 +72,9 @@ const DocumentsPage = ({ user, setRoute, userDocs, setUserDocs }: DocPageType) =
             {uploadState.success ? <h1>Successful Upload</h1> : null}
             <input onChange={(evt) => handleUploadChange(evt)} type="file" />
             <button onClick={(evt) => handleUpload()}>UPLOAD</button>
+            <br />
+            <p>{uploadedDoc.filename}</p>
+            {uploadedDoc.fileURL?<a href={uploadedDoc.fileURL}>Link</a>: null}
 
         </>
     )
