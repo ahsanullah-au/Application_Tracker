@@ -18,6 +18,22 @@ interface UploadStateType {
 
 const DocumentsPage = ({ user, setRoute, userDocs, setUserDocs }: DocPageType) => {
 
+    const getDocs = () => {
+        if (user.id) {
+            fetch(`http://localhost:3001/applications/${user.id}`, {
+                method: 'get',
+                headers: { 'Content-Type': 'application/json' },
+            })
+                .then((response) => response.json())
+                .then((userApps) => {
+                    setUserDocs(userApps);
+                });
+        }
+    };
+
+    // eslint-disable-next-line
+    useEffect(() => getDocs(), []);//Safe to ignore warning on this because getApplications is not dependent on state
+
     const [uploadState, setUploadState] = useState<UploadStateType>({ success: false, url: "", file: null })
 
     const [uploadedDoc, setUploadedDoc] = useState({ filename: "", fileURL: "" })
@@ -54,7 +70,7 @@ const DocumentsPage = ({ user, setRoute, userDocs, setUserDocs }: DocPageType) =
 
                 })
                 .then(url =>
-                    setUploadedDoc({filename: file.name, fileURL: url})
+                    setUploadedDoc({ filename: file.name, fileURL: url })
                 )
 
         }
@@ -74,7 +90,7 @@ const DocumentsPage = ({ user, setRoute, userDocs, setUserDocs }: DocPageType) =
             <button onClick={(evt) => handleUpload()}>UPLOAD</button>
             <br />
             <p>{uploadedDoc.filename}</p>
-            {uploadedDoc.fileURL?<a href={uploadedDoc.fileURL}>Link</a>: null}
+            {uploadedDoc.fileURL ? <a href={uploadedDoc.fileURL}>Link</a> : null}
 
         </>
     )
