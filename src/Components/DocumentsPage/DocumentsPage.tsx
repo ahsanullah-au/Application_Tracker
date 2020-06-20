@@ -20,7 +20,7 @@ const DocumentsPage = ({ user, setRoute, userDocs, setUserDocs }: DocPageType) =
 
     const getDocs = () => {
         if (user.id) {
-            fetch(`http://localhost:3001/applications/${user.id}`, {
+            fetch(`http://localhost:3001/docAccess/${user.id}`, {
                 method: 'get',
                 headers: { 'Content-Type': 'application/json' },
             })
