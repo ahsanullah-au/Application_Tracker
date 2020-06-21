@@ -79,21 +79,42 @@ const DocumentsPage = ({ user, setRoute, userDocs, setUserDocs }: DocPageType) =
 
     }
 
-    return (
-        <>
-            <nav style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <p onClick={() => { setRoute('Home') }} className="f2 link dim black underline pa3 pointer">Go Back</p>
-            </nav>
-            <h1>Upload</h1>
-            {uploadState.success ? <h1>Successful Upload</h1> : null}
-            <input onChange={(evt) => handleUploadChange(evt)} type="file" />
-            <button onClick={(evt) => handleUpload()}>UPLOAD</button>
-            <br />
-            <p>{uploadedDoc.filename}</p>
-            {uploadedDoc.fileURL ? <a href={uploadedDoc.fileURL}>Link</a> : null}
-
-        </>
+    const renderTableBody = () => userDocs.map((docRecord) => {
+        return (
+        <tr className="stripe-dark w-100">
+            <td className="pa3">{docRecord.fileName}</td>
+            <td className="pa3"><a href={docRecord.fileURL}>Link</a></td>
+            
+            <td className="pa1"><button value="Delete" >Delete</button></td>
+        </tr>
     )
+        });
+
+return (
+    <>
+        <nav style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <p onClick={() => { setRoute('Home') }} className="f2 link dim black underline pa3 pointer">Go Back</p>
+        </nav>
+        <h1>Upload</h1>
+        {uploadState.success ? <h1>Successful Upload</h1> : null}
+        <input onChange={(evt) => handleUploadChange(evt)} type="file" />
+        <button onClick={(evt) => handleUpload()}>UPLOAD</button>
+        <br />
+        <p>{uploadedDoc.filename}</p>
+        {uploadedDoc.fileURL ? <a href={uploadedDoc.fileURL}>Link</a> : null}
+
+        <thead>
+                <tr className="stripe-dark">
+                  <th className="fw6 tl pa3 bg-white" >Doc Name</th>
+                  <th className="fw6 tl pa3 bg-white" >Link</th>
+                  
+                </tr>
+              </thead>
+
+        {renderTableBody()}
+
+    </>
+)
 }
 
 export default DocumentsPage;

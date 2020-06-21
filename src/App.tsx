@@ -16,8 +16,8 @@ export interface userType {
 
 interface userDocsType {
   docID: string;
-  docName: string;
-  docURL: string;
+  fileName: string;
+  fileURL: string;
 }
 
 export interface userDocsArrayType extends Array<userDocsType>{}
@@ -33,7 +33,7 @@ function App() {
     lastAppDate: '',
   });
 
-  const [userDocs, setUserDocs] = useState<userDocsArrayType>([{docID:"", docName: "", docURL: ""}])
+  const [userDocs, setUserDocs] = useState<userDocsArrayType>([{docID:"", fileName: "", fileURL: ""}])
   
 
   return (
