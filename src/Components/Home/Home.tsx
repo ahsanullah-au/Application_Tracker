@@ -28,8 +28,7 @@ const Home = ({ user, setUser, setRoute }: HomeType) => {
   const [tableRoute, setTableRoute] = useState('table');
 
 
-  // eslint-disable-next-line
-  useEffect(() => getApplications(), []);//Safe to ignore warning on this because getApplications is not dependent on state
+  useEffect(() => getApplications(), []);
 
   const getApplications = () => {
     if (user.id) {
