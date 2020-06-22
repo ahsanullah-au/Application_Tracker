@@ -18,14 +18,14 @@ interface UploadStateType {
 
 const DocumentsPage = ({ user, setRoute, userDocs, setUserDocs }: DocPageType) => {
     useEffect(() => getDocs(), []);
+    
 
     const [uploadState, setUploadState] = useState<UploadStateType>({ success: false, url: "", file: null })
 
-    const [uploadedDoc, setUploadedDoc] = useState({ filename: "", fileURL: "" })
-
-    const handleUploadChange = (evt: ChangeEvent) => {
+        const handleUploadChange = (evt: ChangeEvent) => {
         setUploadState({ success: false, url: "", file: (evt.target as HTMLInputElement).files })
     }
+    useEffect(() => getDocs(), [userDocs]);
 
     const getDocs = () => {
         if (user.id) {
@@ -35,15 +35,20 @@ const DocumentsPage = ({ user, setRoute, userDocs, setUserDocs }: DocPageType) =
             })
                 .then((response) => response.json())
                 .then((userApps) => {
-                    setUserDocs(userApps);
+                    console.log("Get")
+                    return setUserDocs(userApps);                    
                 });
         }
     };
 
+    const nameAlreadyExists = (fileName: string) => {        
+        return userDocs.some(elem => elem.fileName === fileName)
+    }
 
     const handleUpload = () => {
-        if (uploadState.file) {
+        if (uploadState.file && !nameAlreadyExists(uploadState.file[0].name)) {
             const file = uploadState.file[0]
+
 
             fetch('http://localhost:3001/docStorage', {
                 method: 'POST', // or 'PUT'
@@ -86,18 +91,25 @@ const DocumentsPage = ({ user, setRoute, userDocs, setUserDocs }: DocPageType) =
                 .then(newAdd => getDocs())
 
         }
-
-
-
+        
+        else{
+            if (!uploadState.file){
+                alert("File Not Uploaded")
+            }
+            else{
+                alert("Filename Already Exists")
+            }
+            
+        }
     }
 
     const renderTableBody = () => userDocs.map((docRecord) => {
         return (
-            <tr className="stripe-dark w-100">
-                <td className="pa3">{docRecord.fileName}</td>
-                <td className="pa3"><a href={docRecord.fileURL} target="_blank">Link</a></td>
+            <tr className="stripe-dark w-100" key={docRecord.docID}>
+                <td className="pa3 center">{docRecord.fileName}</td>
+                <td className="pa3 center"><a href={docRecord.fileURL} target="_blank">Link</a></td>
 
-                <td className="pa1"><button value="Delete" >Delete</button></td>
+                <td className="pa1 center"><button value="Delete" >Delete</button></td>
             </tr>
         )
     });
@@ -112,18 +124,20 @@ const DocumentsPage = ({ user, setRoute, userDocs, setUserDocs }: DocPageType) =
             <input onChange={(evt) => handleUploadChange(evt)} type="file" />
             <button onClick={(evt) => handleUpload()}>UPLOAD</button>
             <br />
-            <p>{uploadedDoc.filename}</p>
-            {uploadedDoc.fileURL ? <a href={uploadedDoc.fileURL}>Link</a> : null}
+            
+            <table className="f6 mw8 center" cellSpacing="0">
+                <thead>
+                    <tr className="stripe-dark">
+                        <th className="fw6 tl pa3 bg-white left" >Doc Name</th>
+                        <th className="fw6 tl pa3 bg-white left" >Link</th>
 
-            <thead>
-                <tr className="stripe-dark">
-                    <th className="fw6 tl pa3 bg-white" >Doc Name</th>
-                    <th className="fw6 tl pa3 bg-white" >Link</th>
+                    </tr>
+                </thead>
 
-                </tr>
-            </thead>
-
-            {renderTableBody()}
+                <tbody className="lh-copy">
+                    {renderTableBody()}
+                </tbody>
+            </table>
 
         </>
     )
