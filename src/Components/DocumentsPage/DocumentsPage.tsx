@@ -32,7 +32,6 @@ const DocumentsPage = ({ user, setRoute, userDocs, setUserDocs }: DocPageType) =
             })
                 .then((response) => response.json())
                 .then((userApps) => {
-                    console.log("Get")
                     setUserDocs(userApps);
                 });
         }
@@ -100,18 +99,26 @@ const DocumentsPage = ({ user, setRoute, userDocs, setUserDocs }: DocPageType) =
         }
     }
 
-    const handleDelete = (tempDocID:string, tempFileURL:string) => {
-        if (tempDocID && tempFileURL ) {
+    const handleDelete = (tempDocID: string, tempFileURL: string) => {
+        if (tempDocID && tempFileURL) {
             fetch('http://localhost:3001/docAccess', {
-              method: 'delete',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                docID: tempDocID,
-              }),
+                method: 'delete',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    docID: tempDocID,
+                }),
             })
-              .then((response) => response.json())
-              .then((data) => getDocs());
-          }
+                .then((response) => {
+                    fetch('http://localhost:3001/docStorage', {
+                        method: 'delete',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            URL: tempFileURL,
+                        }),
+                    })
+                })
+                .then((data) => getDocs());
+        }
 
     }
 
