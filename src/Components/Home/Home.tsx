@@ -28,7 +28,9 @@ const Home = ({ user, setUser, setRoute }: HomeType) => {
   const [tableRoute, setTableRoute] = useState('table');
 
 
-  useEffect(() => getApplications(), []);
+  useEffect(() => getApplications()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    , []);
 
   const getApplications = () => {
     if (user.id) {

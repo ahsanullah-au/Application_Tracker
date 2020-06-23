@@ -45,6 +45,7 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
       newLink: scrapedValues.jobURL,
       newNotes: newApplication.newNotes,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrapedValues]);
 
   const getScraperValues = () => {

@@ -10,22 +10,19 @@ interface DocPageType {
 }
 
 interface UploadStateType {
-    success: boolean,
+
     url: string,
     file: null | FileList
 }
 
 
 const DocumentsPage = ({ user, setRoute, userDocs, setUserDocs }: DocPageType) => {
-    useEffect(() => getDocs(), []);
-    
 
-    const [uploadState, setUploadState] = useState<UploadStateType>({ success: false, url: "", file: null })
+    const [uploadState, setUploadState] = useState<UploadStateType>({ url: "", file: null })
 
-        const handleUploadChange = (evt: ChangeEvent) => {
-        setUploadState({ success: false, url: "", file: (evt.target as HTMLInputElement).files })
+    const handleUploadChange = (evt: ChangeEvent) => {
+        setUploadState({ url: "", file: (evt.target as HTMLInputElement).files })
     }
-    useEffect(() => getDocs(), [userDocs]);
 
     const getDocs = () => {
         if (user.id) {
@@ -36,12 +33,12 @@ const DocumentsPage = ({ user, setRoute, userDocs, setUserDocs }: DocPageType) =
                 .then((response) => response.json())
                 .then((userApps) => {
                     console.log("Get")
-                    return setUserDocs(userApps);                    
+                    setUserDocs(userApps);
                 });
         }
     };
 
-    const nameAlreadyExists = (fileName: string) => {        
+    const nameAlreadyExists = (fileName: string) => {
         return userDocs.some(elem => elem.fileName === fileName)
     }
 
@@ -77,7 +74,7 @@ const DocumentsPage = ({ user, setRoute, userDocs, setUserDocs }: DocPageType) =
                         throw new Error("Missing User or Files")
                     }
                     else {
-                        fetch('http://localhost:3001/docAccess', {
+                        return fetch('http://localhost:3001/docAccess', {
                             method: 'post',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
@@ -91,15 +88,15 @@ const DocumentsPage = ({ user, setRoute, userDocs, setUserDocs }: DocPageType) =
                 .then(newAdd => getDocs())
 
         }
-        
-        else{
-            if (!uploadState.file){
+
+        else {
+            if (!uploadState.file) {
                 alert("File Not Uploaded")
             }
-            else{
+            else {
                 alert("Filename Already Exists")
             }
-            
+
         }
     }
 
@@ -107,12 +104,16 @@ const DocumentsPage = ({ user, setRoute, userDocs, setUserDocs }: DocPageType) =
         return (
             <tr className="stripe-dark w-100" key={docRecord.docID}>
                 <td className="pa3 center">{docRecord.fileName}</td>
-                <td className="pa3 center"><a href={docRecord.fileURL} target="_blank">Link</a></td>
+                <td className="pa3 center"><a href={docRecord.fileURL} target="_blank" rel="noopener noreferrer">Link</a></td>
 
                 <td className="pa1 center"><button value="Delete" >Delete</button></td>
             </tr>
         )
     });
+
+    useEffect(() => getDocs()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        , []);
 
     return (
         <>
@@ -120,11 +121,10 @@ const DocumentsPage = ({ user, setRoute, userDocs, setUserDocs }: DocPageType) =
                 <p onClick={() => { setRoute('Home') }} className="f2 link dim black underline pa3 pointer">Go Back</p>
             </nav>
             <h1>Upload</h1>
-            {uploadState.success ? <h1>Successful Upload</h1> : null}
             <input onChange={(evt) => handleUploadChange(evt)} type="file" />
             <button onClick={(evt) => handleUpload()}>UPLOAD</button>
             <br />
-            
+
             <table className="f6 mw8 center" cellSpacing="0">
                 <thead>
                     <tr className="stripe-dark">
