@@ -100,13 +100,28 @@ const DocumentsPage = ({ user, setRoute, userDocs, setUserDocs }: DocPageType) =
         }
     }
 
+    const handleDelete = (tempDocID:string, tempFileURL:string) => {
+        if (tempDocID && tempFileURL ) {
+            fetch('http://localhost:3001/docAccess', {
+              method: 'delete',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                docID: tempDocID,
+              }),
+            })
+              .then((response) => response.json())
+              .then((data) => getDocs());
+          }
+
+    }
+
     const renderTableBody = () => userDocs.map((docRecord) => {
         return (
             <tr className="stripe-dark w-100" key={docRecord.docID}>
                 <td className="pa3 center">{docRecord.fileName}</td>
                 <td className="pa3 center"><a href={docRecord.fileURL} target="_blank" rel="noopener noreferrer">Link</a></td>
 
-                <td className="pa1 center"><button value="Delete" >Delete</button></td>
+                <td className="pa1 center"><button value="Delete" onClick={(evt) => handleDelete(docRecord.docID, docRecord.fileURL)} >Delete</button></td>
             </tr>
         )
     });
