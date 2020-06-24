@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { userType } from '../../App';
 
 interface newApplicationTypes {
-    user: userType,
-    setTableRoute: Function,
-    getApplications: Function
+  user: userType,
+  setTableRoute: Function,
+  getApplications: Function
 }
 
 const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) => {
@@ -182,7 +182,7 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
           <div className="mt3">
             <label className="db fw4 lh-copy f6">Type of Posting</label>
             <select id="AddResponse" onChange={(evt) => { setScraperInput({ ...scraperInput, scraperSite: evt.target.value }); }}>
-              <option>LinkedIn</option>
+              {/*<option>LinkedIn</option>*/}
               <option>Indeed</option>
             </select>
           </div>
