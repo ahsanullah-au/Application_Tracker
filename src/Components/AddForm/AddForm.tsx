@@ -33,8 +33,8 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
     newNotes: '',
   });
 
-  //When scraper values are updated, so are the newApplication values
-  //To enable addition of default scraped values
+  // When scraper values are updated, so are the newApplication values
+  // To enable addition of default scraped values
   useEffect(() => {
     setNewApplication({
       newCompany: scrapedValues.jobCompanyName,

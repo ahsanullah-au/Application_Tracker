@@ -33,8 +33,8 @@ function App() {
     lastAppDate: '',
   });
 
-  const [userDocs, setUserDocs] = useState<userDocsArrayType>([{docID:"", fileName: "", fileURL: ""}])
-  
+  const [userDocs, setUserDocs] = useState<userDocsArrayType>([{ docID: '', fileName: '', fileURL: '' }]);
+
 
   return (
     <div className="App">
@@ -42,7 +42,7 @@ function App() {
         (route === 'SignIn') ? <SignIn route={route} setRoute={setRoute} setUser={setUser} />
           : (route === 'Register') ? <Register route={route} setRoute={setRoute} setUser={setUser} />
             : (route === 'Docs') ? <DocumentsPage user={user} setRoute={setRoute} userDocs={userDocs} setUserDocs={setUserDocs} />
-              :<Home user={user} setRoute={setRoute} setUser={setUser}  />
+              : <Home user={user} setRoute={setRoute} setUser={setUser} userDocs={userDocs} />
       }
 
     </div>

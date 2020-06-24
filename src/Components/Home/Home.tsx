@@ -8,9 +8,12 @@ interface HomeType {
   user: userType,
   setUser: Function,
   setRoute: Function
+  userDocs: userDocsArrayType
 }
 
-const Home = ({ user, setUser, setRoute }: HomeType) => {
+const Home = ({
+  user, setUser, setRoute, userDocs,
+}: HomeType) => {
   const [appData, setAppData] = useState<Array<{ [key: string]: string }>>([{ // Lets you index by string, for sorting function
     appID: '',
     appCompany: '',
@@ -28,9 +31,9 @@ const Home = ({ user, setUser, setRoute }: HomeType) => {
   const [tableRoute, setTableRoute] = useState('table');
 
 
-  useEffect(() => getApplications()
+  useEffect(() => getApplications(),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    , []);
+    []);
 
   const getApplications = () => {
     if (user.id) {
@@ -68,6 +71,7 @@ const Home = ({ user, setUser, setRoute }: HomeType) => {
       appLink={appRecord.appLink}
       appNotes={appRecord.appNotes}
       getApplications={getApplications}
+      userDocs={userDocs}
     />
   ));
 

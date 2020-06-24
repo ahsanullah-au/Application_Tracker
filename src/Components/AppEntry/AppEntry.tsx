@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import DocLinker from '../DocLinker/DocLinker';
+import type { userDocsArrayType } from '../../App';
+
 
 interface AppEntryProps {
   appID: string,
@@ -9,11 +12,12 @@ interface AppEntryProps {
   appResponse: string,
   appLink: string,
   appNotes: string,
-  getApplications: Function
+  getApplications: Function,
+  userDocs: userDocsArrayType
 }
 
 const AppEntry = ({
-  appID, appCompany, appRole, appLocation, appDate, appResponse, appLink, appNotes, getApplications,
+  appID, appCompany, appRole, appLocation, appDate, appResponse, appLink, appNotes, getApplications, userDocs,
 }: AppEntryProps) => {
   const [newApplication, setNewApplication] = useState({
     newCompany: appCompany,
