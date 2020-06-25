@@ -31,6 +31,8 @@ const AppEntry = ({
 
   const [modifyState, setModifyState] = useState(0);
 
+  const [modifyDocs, setModifyDocs] = useState(1)
+
 
   const updateApplication = () => {
     if (appID && newApplication.newCompany && newApplication.newRole && newApplication.newLocation && newApplication.newDate && newApplication.newResponse && newApplication.newLink) {
@@ -72,7 +74,30 @@ const AppEntry = ({
     }
   };
 
-  
+  let availableDocs = () => {
+    if (modifyDocs) {
+      return (
+        <>
+          <td colSpan={10}>
+            <form>
+              <input type="checkbox" id="Doc1" name="Doc1" value="Doc1" />
+              <label htmlFor="Doc1"> Doc1</label><br />
+              <input type="checkbox" id="Doc2" name="Doc2" value="Doc2" />
+              <label htmlFor="Doc2">Doc2</label><br />
+              <input type="checkbox" id="Doc3" name="Doc3" value="Doc3" />
+              <label htmlFor="Doc3">Doc3</label><br /><br />
+              <input type="submit" value="Submit" />
+            </form>
+          </td>
+        </>
+      )
+    }
+    else{
+      return null;
+    }
+  }
+
+
   if (modifyState === 0) {
     return (
       <>
@@ -88,18 +113,12 @@ const AppEntry = ({
           <td className="pa3">{appNotes}</td>
           <td className="pa1"><button id={`EditApplication${appID}`} value="Edit" onClick={() => setModifyState(1)}>Edit</button></td>
           <td className="pa1"><button id={`DeleteApplication${appID}`} value="Delete" onClick={deleteApplication}>Delete</button></td>
+          <td className="pa1"><button id={`ViewDocs${appID}`} value="ViewDocs" >View Docs</button></td>
+          <td className="pa1"><button id={`LinkDocs${appID}`} value="LinkDocs" >Link Docs</button></td>
+
+
         </tr>
-        <td colSpan={10}>
-          <form>
-            <input type="checkbox" id="Doc1" name="Doc1" value="Doc1" />
-            <label htmlFor="Doc1"> Doc1</label><br />
-            <input type="checkbox" id="Doc2" name="Doc2" value="Doc2" />
-            <label htmlFor="Doc2">Doc2</label><br />
-            <input type="checkbox" id="Doc3" name="Doc3" value="Doc3" />
-            <label htmlFor="Doc3">Doc3</label><br /><br />
-            <input type="submit" value="Submit" />
-          </form>
-        </td>
+        {availableDocs()}
       </>
     );
   }
