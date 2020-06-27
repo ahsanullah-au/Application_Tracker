@@ -34,7 +34,7 @@ const AppEntry = ({
 
   const [modifyDocs, setModifyDocs] = useState(0)
 
-  const [appLinkedDocs, setAppLinkedDocs] = useState(["38","39"])
+  const [appLinkedDocs, setAppLinkedDocs] = useState(["38", "39"])
 
 
   const updateApplication = () => {
@@ -78,15 +78,19 @@ const AppEntry = ({
   };
 
   const docMatcher = (docID: string) => {
-    userDocs.forEach(docElement => {
-      console.log(docElement.docID + "Sep" + docID)
-      if (docElement.docID === docID) {
+    return userDocs.map(docElement => {
+
+      if (docElement.docID.toString() === docID) {
+
         return (
           <>
             <input type="checkbox" id={docID} name={docElement.fileName} value={docElement.fileName} />
             <label htmlFor="Doc1"> {docElement.fileName}</label><br />
           </>
         )
+      }
+      else {
+        return null
       }
 
     })
@@ -98,7 +102,7 @@ const AppEntry = ({
         <>
           <td colSpan={10}>
             <form>
-              {appLinkedDocs.forEach(docID => docMatcher(docID))}
+              {appLinkedDocs.map(docID => docMatcher(docID))}
 
               <br />
               <input type="submit" value="Submit" />

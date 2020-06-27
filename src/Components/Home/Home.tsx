@@ -49,9 +49,6 @@ const Home = ({
     }
   };
 
-  
-
-
   const sortApplications = (tempSortType = sortState.sortType, changeSortDirection = 1) => {
     setSortState({
       sortType: tempSortType,
