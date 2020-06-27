@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 
 import type { userType, userDocsArrayType } from '../../App';
 
@@ -7,6 +7,7 @@ interface DocPageType {
     setRoute: Function
     userDocs: userDocsArrayType,
     setUserDocs: Function
+    getDocs: Function
 }
 
 interface UploadStateType {
@@ -17,7 +18,7 @@ interface UploadStateType {
 
 
 const DocumentsPage = ({
-  user, setRoute, userDocs, setUserDocs,
+  user, setRoute, userDocs, setUserDocs, getDocs
 }: DocPageType) => {
   const [uploadState, setUploadState] = useState<UploadStateType>({ url: '', file: null });
 
@@ -25,19 +26,7 @@ const DocumentsPage = ({
     setUploadState({ url: '', file: (evt.target as HTMLInputElement).files });
   };
 
-  const getDocs = () => {
-    if (user.id) {
-      fetch(`http://localhost:3001/docAccess/${user.id}`, {
-        method: 'get',
-        headers: { 'Content-Type': 'application/json' },
-      })
-        .then((response) => response.json())
-        .then((userApps) => {
-          setUserDocs(userApps);
-        });
-    }
-  };
-
+  
   const nameAlreadyExists = (fileName: string) => userDocs.some((elem) => elem.fileName === fileName);
 
   const handleUpload = () => {
@@ -121,9 +110,7 @@ const DocumentsPage = ({
     </tr>
   ));
 
-  useEffect(() => getDocs(),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []);
+  
 
   return (
     <>

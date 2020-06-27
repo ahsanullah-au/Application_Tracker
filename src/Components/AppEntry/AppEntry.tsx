@@ -13,11 +13,12 @@ interface AppEntryProps {
   appLink: string,
   appNotes: string,
   getApplications: Function,
-  userDocs: userDocsArrayType
+  userDocs: userDocsArrayType,
+  getDocs: Function
 }
 
 const AppEntry = ({
-  appID, appCompany, appRole, appLocation, appDate, appResponse, appLink, appNotes, getApplications, userDocs,
+  appID, appCompany, appRole, appLocation, appDate, appResponse, appLink, appNotes, getApplications, userDocs, getDocs
 }: AppEntryProps) => {
   const [newApplication, setNewApplication] = useState({
     newCompany: appCompany,
@@ -32,6 +33,8 @@ const AppEntry = ({
   const [modifyState, setModifyState] = useState(0);
 
   const [modifyDocs, setModifyDocs] = useState(0)
+
+  const [appLinkedDocs, setAppLinkedDocs] = useState(["38","39"])
 
 
   const updateApplication = () => {
@@ -74,18 +77,30 @@ const AppEntry = ({
     }
   };
 
-  let availableDocs = () => {
+  const docMatcher = (docID: string) => {
+    userDocs.forEach(docElement => {
+      console.log(docElement.docID + "Sep" + docID)
+      if (docElement.docID === docID) {
+        return (
+          <>
+            <input type="checkbox" id={docID} name={docElement.fileName} value={docElement.fileName} />
+            <label htmlFor="Doc1"> {docElement.fileName}</label><br />
+          </>
+        )
+      }
+
+    })
+  }
+
+  const availableDocs = () => {
     if (modifyDocs) {
       return (
         <>
           <td colSpan={10}>
             <form>
-              <input type="checkbox" id="Doc1" name="Doc1" value="Doc1" />
-              <label htmlFor="Doc1"> {appRole}</label><br />
-              <input type="checkbox" id="Doc2" name="Doc2" value="Doc2" />
-              <label htmlFor="Doc2">Doc2</label><br />
-              <input type="checkbox" id="Doc3" name="Doc3" value="Doc3" />
-              <label htmlFor="Doc3">Doc3</label><br /><br />
+              {appLinkedDocs.forEach(docID => docMatcher(docID))}
+
+              <br />
               <input type="submit" value="Submit" />
               <button id="CancelLinkingDocs" value="Cancel" onClick={() => setModifyDocs(0)}>Cancel</button>
             </form>
