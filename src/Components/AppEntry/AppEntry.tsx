@@ -34,6 +34,8 @@ const AppEntry = ({
 
   const [modifyDocs, setModifyDocs] = useState(0)
 
+  const [viewDocs, setViewDocs] = useState(0)
+
   const [appLinkedDocs, setAppLinkedDocs] = useState(["38", "39"])
 
 
@@ -84,8 +86,9 @@ const AppEntry = ({
 
         return (
           <>
-            <input type="checkbox" id={docID} name={docElement.fileName} value={docElement.fileName} />
-            <label htmlFor="Doc1"> {docElement.fileName}</label><br />
+            <td className="pa3 center">{docElement.fileName}</td>
+            <td className="pa3 center"><a href={docElement.fileURL} target="_blank" rel="noopener noreferrer">Link</a></td>
+            <br/>
           </>
         )
       }
@@ -97,7 +100,7 @@ const AppEntry = ({
   }
 
   const availableDocs = () => {
-    if (modifyDocs) {
+    if (viewDocs) {
       return (
         <>
           <td colSpan={10}>
@@ -106,9 +109,16 @@ const AppEntry = ({
 
               <br />
               <input type="submit" value="Submit" />
-              <button id="CancelLinkingDocs" value="Cancel" onClick={() => setModifyDocs(0)}>Cancel</button>
+              <button id="CancelLinkingDocs" value="Cancel" onClick={() => setViewDocs(0)}>Cancel</button>
             </form>
           </td>
+        </>
+      )
+    }
+    else if (modifyDocs) {
+      return (
+        <>
+
         </>
       )
     }
@@ -133,8 +143,8 @@ const AppEntry = ({
           <td className="pa3">{appNotes}</td>
           <td className="pa1"><button id={`EditApplication${appID}`} value="Edit" onClick={() => setModifyState(1)}>Edit</button></td>
           <td className="pa1"><button id={`DeleteApplication${appID}`} value="Delete" onClick={deleteApplication}>Delete</button></td>
-          <td className="pa1"><button id={`ViewDocs${appID}`} value="ViewDocs" >View Docs</button></td>
-          <td className="pa1"><button id={`LinkDocs${appID}`} value="LinkDocs" onClick={() => setModifyDocs(1)}>Link Docs</button></td>
+          <td className="pa1"><button id={`ViewDocs${appID}`} value="ViewDocs" onClick={() => setViewDocs(1-viewDocs)}>View Docs</button></td>
+          <td className="pa1"><button id={`LinkDocs${appID}`} value="LinkDocs" onClick={() => setModifyDocs(1-modifyDocs)}>Link Docs</button></td>
 
 
         </tr>
