@@ -14,7 +14,7 @@ export interface userType {
   lastAppDate: string
 }
 
-interface userDocsType {
+export interface userDocsType {
   docID: string;
   fileName: string;
   fileURL: string;

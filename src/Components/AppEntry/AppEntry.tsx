@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import type { userDocsArrayType } from '../../App';
+import type { userDocsType, userDocsArrayType } from '../../App';
 
 
 interface AppEntryProps {
@@ -113,25 +113,35 @@ const AppEntry = ({
     })
   }
 
+  const docSelector = (docElem: userDocsType) => {
+    return <option value={docElem.fileName}>{docElem.fileName}</option>
+  }
+
   const availableDocs = () => {
     if (viewDocs) {
       return (
         <>
-          <td colSpan={10}>
-
+          <td colSpan={15}>
             {appLinkedDocs ? appLinkedDocs.map(docID => docMatcher(docID)) : <p>No Linked Docs for this Application</p>}
 
             <br />
-
-            <button id="CancelLinkingDocs" value="Cancel" onClick={() => setViewDocs(0)}>Close</button>
-
+            <button id="CancelViewingDocs" value="Cancel" onClick={() => setViewDocs(0)}>Close</button>
           </td>
         </>
       )
     }
     else if (modifyDocs) {
+
       return (
         <>
+          <td colSpan={15}>
+            <select name="linkedDocs" id="linkedDocs" multiple>
+              {userDocs ? userDocs.map(docElem => docSelector(docElem)) : <p>No Docs Available</p>}
+            </select>
+            <br />
+            <button id="CancelLinkingDocs" value="Cancel" onClick={() => setModifyDocs(0)}>Cancel</button>
+          </td>
+
 
         </>
       )
