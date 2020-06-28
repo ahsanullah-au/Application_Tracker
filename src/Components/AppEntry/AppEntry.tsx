@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import DocLinker from '../DocLinker/DocLinker';
+import React, { useState, useEffect } from 'react';
 import type { userDocsArrayType } from '../../App';
 
 
@@ -36,7 +35,7 @@ const AppEntry = ({
 
   const [viewDocs, setViewDocs] = useState(0)
 
-  const [appLinkedDocs, setAppLinkedDocs] = useState(["38", "39"])
+  const [appLinkedDocs, setAppLinkedDocs] = useState([""])
 
 
   const updateApplication = () => {
@@ -64,6 +63,21 @@ const AppEntry = ({
     }
   };
 
+  const getLinkedDocs = () => {
+
+    if (appID) {
+      fetch(`http://localhost:3001/docLink/${appID}`, {
+        method: 'get',
+        headers: { 'Content-Type': 'application/json' },
+      })
+        .then((response) => response.json())
+        .then((appDocs) => {
+          setAppLinkedDocs(appDocs);
+        });
+    }
+
+  }
+
 
   const deleteApplication = () => {
     if (appID) {
@@ -86,10 +100,10 @@ const AppEntry = ({
 
         return (
           <>
-            <td className="pa3 center">{docElement.fileName}</td>
-            <td className="pa3 center"><a href={docElement.fileURL} target="_blank" rel="noopener noreferrer">Link</a></td>
-            <br/>
+            <a href={docElement.fileURL} target="_blank" rel="noopener noreferrer">{docElement.fileName}</a>
+            <br />
           </>
+
         )
       }
       else {
@@ -104,13 +118,13 @@ const AppEntry = ({
       return (
         <>
           <td colSpan={10}>
-            <form>
-              {appLinkedDocs.map(docID => docMatcher(docID))}
 
-              <br />
-              <input type="submit" value="Submit" />
-              <button id="CancelLinkingDocs" value="Cancel" onClick={() => setViewDocs(0)}>Cancel</button>
-            </form>
+            {appLinkedDocs ? appLinkedDocs.map(docID => docMatcher(docID)) : <p>No Linked Docs for this Application</p>}
+
+            <br />
+
+            <button id="CancelLinkingDocs" value="Cancel" onClick={() => setViewDocs(0)}>Close</button>
+
           </td>
         </>
       )
@@ -127,6 +141,10 @@ const AppEntry = ({
     }
   }
 
+  useEffect(() => getLinkedDocs(),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []);
+
 
   if (modifyState === 0) {
     return (
@@ -138,13 +156,13 @@ const AppEntry = ({
           <td className="pa3">{appDate.substring(0, 10)}</td>
           <td className="pa3">{appResponse}</td>
           <td className="pa3">
-            <a href={appLink}>{appLink}</a>
+            <a href={appLink} target="_blank" rel="noopener noreferrer">{appLink}</a>
           </td>
           <td className="pa3">{appNotes}</td>
           <td className="pa1"><button id={`EditApplication${appID}`} value="Edit" onClick={() => setModifyState(1)}>Edit</button></td>
           <td className="pa1"><button id={`DeleteApplication${appID}`} value="Delete" onClick={deleteApplication}>Delete</button></td>
-          <td className="pa1"><button id={`ViewDocs${appID}`} value="ViewDocs" onClick={() => setViewDocs(1-viewDocs)}>View Docs</button></td>
-          <td className="pa1"><button id={`LinkDocs${appID}`} value="LinkDocs" onClick={() => setModifyDocs(1-modifyDocs)}>Link Docs</button></td>
+          <td className="pa1"><button id={`ViewDocs${appID}`} value="ViewDocs" onClick={() => setViewDocs(1 - viewDocs)}>View Docs</button></td>
+          <td className="pa1"><button id={`LinkDocs${appID}`} value="LinkDocs" onClick={() => setModifyDocs(1 - modifyDocs)}>Link Docs</button></td>
 
 
         </tr>
