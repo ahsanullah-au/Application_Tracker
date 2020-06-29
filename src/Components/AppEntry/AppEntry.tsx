@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent, MouseEvent } from 'react';
 import type { userDocsType, userDocsArrayType } from '../../App';
 
 
@@ -116,7 +116,7 @@ const AppEntry = ({
   }
 
   const docSelector = (docElem: userDocsType) => {
-    return <option value={docElem.fileName}>{docElem.fileName}</option>
+    return <option value={docElem.docID}>{docElem.fileName}</option>
   }
 
   const handleSelectChange = (evt: ChangeEvent) => {
@@ -126,12 +126,31 @@ const AppEntry = ({
     console.log(values)
   }
 
+const updateSelectedDocs = (evt: MouseEvent) => {
+  if(appID){
+    fetch('http://localhost:3001/docLink', {
+        method: 'put',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          appID,
+          docArray: linkedDocsSelector
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setModifyDocs(0)
+          getLinkedDocs();
+        });
+
+  }
+}
+
   const availableDocs = () => {
     if (viewDocs) {
       return (
         <>
           <td colSpan={15}>
-            {appLinkedDocs ? appLinkedDocs.map(docID => docMatcher(docID)) : <p>No Linked Docs for this Application</p>}
+            {(appLinkedDocs && appLinkedDocs[0]) ? appLinkedDocs.map(docID => docMatcher(docID)) : <p>No Linked Docs for this Application</p>}
 
             <br />
             <button id="CancelViewingDocs" value="Cancel" onClick={() => setViewDocs(0)}>Close</button>
@@ -148,7 +167,8 @@ const AppEntry = ({
               {userDocs ? userDocs.map(docElem => docSelector(docElem)) : <p>No Docs Available</p>}
             </select>
             <br />
-            <button id="CancelLinkingDocs" value="Cancel" onClick={() => setModifyDocs(0)}>Cancel</button>
+            <button id="AddLinkingDocs" onClick={(evt) => updateSelectedDocs(evt)}>Update</button>
+            <button id="CancelLinkingDocs" onClick={() => setModifyDocs(0)}>Cancel</button>
           </td>
 
 
