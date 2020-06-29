@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import type { userDocsType, userDocsArrayType } from '../../App';
 
 
@@ -36,6 +36,8 @@ const AppEntry = ({
   const [viewDocs, setViewDocs] = useState(0)
 
   const [appLinkedDocs, setAppLinkedDocs] = useState([""])
+
+  const [linkedDocsSelector, setLinkedDocsSelector] = useState([""])
 
 
   const updateApplication = () => {
@@ -117,6 +119,13 @@ const AppEntry = ({
     return <option value={docElem.fileName}>{docElem.fileName}</option>
   }
 
+  const handleSelectChange = (evt: ChangeEvent) => {
+    let options = (evt.target as HTMLSelectElement).options;
+    let values = [...options].filter(o => o.selected).map(o => o.value); //Filters out selected values
+    setLinkedDocsSelector(values)
+    console.log(values)
+  }
+
   const availableDocs = () => {
     if (viewDocs) {
       return (
@@ -135,7 +144,7 @@ const AppEntry = ({
       return (
         <>
           <td colSpan={15}>
-            <select name="linkedDocs" id="linkedDocs" multiple>
+            <select name="linkedDocs" id="linkedDocs" multiple onChange={evt => handleSelectChange(evt)}>
               {userDocs ? userDocs.map(docElem => docSelector(docElem)) : <p>No Docs Available</p>}
             </select>
             <br />
