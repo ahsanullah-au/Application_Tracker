@@ -126,9 +126,9 @@ const AppEntry = ({
     console.log(values)
   }
 
-const updateSelectedDocs = (evt: MouseEvent) => {
-  if(appID){
-    fetch('http://localhost:3001/docLink', {
+  const updateSelectedDocs = (evt: MouseEvent) => {
+    if (appID) {
+      fetch('http://localhost:3001/docLink', {
         method: 'put',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -139,11 +139,12 @@ const updateSelectedDocs = (evt: MouseEvent) => {
         .then((response) => response.json())
         .then((data) => {
           setModifyDocs(0)
+          setLinkedDocsSelector([""])
           getLinkedDocs();
         });
 
+    }
   }
-}
 
   const availableDocs = () => {
     if (viewDocs) {
@@ -200,8 +201,8 @@ const updateSelectedDocs = (evt: MouseEvent) => {
           <td className="pa3">{appNotes}</td>
           <td className="pa1"><button id={`EditApplication${appID}`} value="Edit" onClick={() => setModifyState(1)}>Edit</button></td>
           <td className="pa1"><button id={`DeleteApplication${appID}`} value="Delete" onClick={deleteApplication}>Delete</button></td>
-          <td className="pa1"><button id={`ViewDocs${appID}`} value="ViewDocs" onClick={() => setViewDocs(1 - viewDocs)}>View Docs</button></td>
-          <td className="pa1"><button id={`LinkDocs${appID}`} value="LinkDocs" onClick={() => setModifyDocs(1 - modifyDocs)}>Link Docs</button></td>
+          <td className="pa1"><button id={`ViewDocs${appID}`} value="ViewDocs" onClick={() => {setViewDocs(1 - viewDocs); setModifyDocs(0)}}>View Docs</button></td>
+          <td className="pa1"><button id={`LinkDocs${appID}`} value="LinkDocs" onClick={() => {setModifyDocs(1 - modifyDocs); setViewDocs(0)}}>Link Docs</button></td>
 
 
         </tr>
