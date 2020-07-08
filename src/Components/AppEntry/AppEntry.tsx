@@ -63,6 +63,9 @@ const AppEntry = ({
           getApplications();
         });
     }
+    else{
+      alert("All fields are required except Notes")
+    }
   };
 
   const getLinkedDocs = () => {
