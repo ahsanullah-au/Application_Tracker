@@ -43,7 +43,13 @@ const SignIn = ({ route, setRoute, setUser }:SignInProps) => {
             setUser(user);
             setRoute('Home');
           }
+          else{
+            alert("Wrong email or password")
+          }
         });
+    }
+    else{
+      alert("Please enter your email and password")
     }
   };
 

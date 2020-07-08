@@ -1,12 +1,12 @@
 import React, { useState, ChangeEvent, MouseEvent } from 'react';
 
 interface RegisterProps {
-    route: string,
-    setRoute: Function,
-    setUser: Function
+  route: string,
+  setRoute: Function,
+  setUser: Function
 }
 
-const Register = ({ route, setRoute, setUser }:RegisterProps) => {
+const Register = ({ route, setRoute, setUser }: RegisterProps) => {
   const [registerState, setRegisterState] = useState({
     firstname: '',
     lastname: '',
@@ -15,7 +15,7 @@ const Register = ({ route, setRoute, setUser }:RegisterProps) => {
   });
 
 
-  const onFirstNameChange = (event:ChangeEvent) => {
+  const onFirstNameChange = (event: ChangeEvent) => {
     setRegisterState({
       firstname: (event.target as HTMLTextAreaElement).value,
       lastname: registerState.lastname,
@@ -24,7 +24,7 @@ const Register = ({ route, setRoute, setUser }:RegisterProps) => {
     });
   };
 
-  const onLastNameChange = (event:ChangeEvent) => {
+  const onLastNameChange = (event: ChangeEvent) => {
     setRegisterState({
       firstname: registerState.firstname,
       lastname: (event.target as HTMLTextAreaElement).value,
@@ -33,7 +33,7 @@ const Register = ({ route, setRoute, setUser }:RegisterProps) => {
     });
   };
 
-  const onEmailChange = (event:ChangeEvent) => {
+  const onEmailChange = (event: ChangeEvent) => {
     setRegisterState({
       firstname: registerState.firstname,
       lastname: registerState.lastname,
@@ -41,7 +41,7 @@ const Register = ({ route, setRoute, setUser }:RegisterProps) => {
       password: registerState.password,
     });
   };
-  const onPasswordChange = (event:ChangeEvent) => {
+  const onPasswordChange = (event: ChangeEvent) => {
     setRegisterState({
       firstname: registerState.firstname,
       lastname: registerState.lastname,
@@ -50,25 +50,35 @@ const Register = ({ route, setRoute, setUser }:RegisterProps) => {
     });
   };
 
-  const onSubmitRegister = (event:MouseEvent) => {
+  const onSubmitRegister = (event: MouseEvent) => {
     event.preventDefault();
-    fetch('http://localhost:3001/register', {
-      method: 'post',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        firstname: registerState.firstname,
-        lastname: registerState.lastname,
-        email: registerState.email,
-        password: registerState.password,
-      }),
-    })
-      .then((response) => response.json())
-      .then((user) => {
-        if (user.id) {
-          setUser(user);
-          setRoute('Home');
-        }
-      });
+    if (registerState.firstname && registerState.lastname && registerState.email && registerState.password) {
+      fetch('http://localhost:3001/register', {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstname: registerState.firstname,
+          lastname: registerState.lastname,
+          email: registerState.email,
+          password: registerState.password,
+        }),
+      })
+        .then((response) => response.json())
+        .then((user) => {
+          if (user.id) {
+            setUser(user);
+            setRoute('Home');
+          }
+          else{
+            alert("Email already exists")
+          }
+        });
+
+    }
+    else {
+      alert("Please fill out all info")
+    }
+
   };
 
 
