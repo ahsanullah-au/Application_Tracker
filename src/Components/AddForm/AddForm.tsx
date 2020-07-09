@@ -13,7 +13,7 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
 
   const [scraperInput, setScraperInput] = useState({
     scraperURL: '',
-    scraperSite: 'LinkedIn',
+    scraperSite: 'Indeed',
   });
 
   const [scrapedValues, setScrapedValues] = useState({
@@ -23,11 +23,16 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
     jobURL: '',
   });
 
+  const getTodaysDate = () => {
+    const date = new Date()
+    return `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)}`
+  }
+
   const [newApplication, setNewApplication] = useState({
     newCompany: scrapedValues.jobCompanyName,
     newRole: scrapedValues.jobTitle,
     newLocation: scrapedValues.jobLocation,
-    newDate: '',
+    newDate: getTodaysDate(),
     newResponse: 'None',
     newLink: scrapedValues.jobURL,
     newNotes: '',
@@ -92,12 +97,14 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
     }
   };
 
+  
+
 
   if (addFormRoute === 'choice') {
     return (
       <>
         <p className="f2 link dim black pa3 pointer" onClick={() => setAddFormRoute('form')}>Add Manually</p>
-        <p className="f2 link dim black pa3 pointer" onClick={() => setAddFormRoute('scraper')}>Add From LinkedIn or Indeed Postings</p>
+        <p className="f2 link dim black pa3 pointer" onClick={() => setAddFormRoute('scraper')}>Add From Indeed Postings</p>
         <p className="f2 link dim black pa3 pointer" onClick={() => setTableRoute('table')}>Cancel</p>
       </>
     );
@@ -122,7 +129,9 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
               </div>
               <div className="mt3">
                 <label className="db fw4 lh-copy f6">Date</label>
-                <input type="date" id="AddDate" onChange={(evt) => { setNewApplication({ ...newApplication, newDate: evt.target.value }); }} />
+                <input type="date" id="AddDate"
+                  defaultValue={getTodaysDate()}
+                  onChange={(evt) => { setNewApplication({ ...newApplication, newDate: evt.target.value }); }} />
               </div>
               <div className="mt3">
                 <label className="db fw4 lh-copy f6">Response</label>
@@ -179,13 +188,15 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
               onChange={(evt) => { setScraperInput({ ...scraperInput, scraperURL: evt.target.value }); }}
             />
           </div>
+          {/*
           <div className="mt3">
             <label className="db fw4 lh-copy f6">Type of Posting</label>
             <select id="AddResponse" onChange={(evt) => { setScraperInput({ ...scraperInput, scraperSite: evt.target.value }); }}>
-              {/*<option>LinkedIn</option>*/}
+              <option>LinkedIn</option>
               <option>Indeed</option>
             </select>
           </div>
+          */}
           <div className="mt3">
             <input
               className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6"
