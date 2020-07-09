@@ -85,7 +85,8 @@ const AppEntry = ({
 
 
   const deleteApplication = () => {
-    if (appID) {
+    let del = window.confirm("Are you sure you want to delete this?")
+    if (appID && del) {
       fetch('http://localhost:3001/applications', {
         method: 'delete',
         headers: { 'Content-Type': 'application/json' },

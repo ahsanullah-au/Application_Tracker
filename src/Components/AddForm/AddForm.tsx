@@ -95,6 +95,9 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
           setTableRoute('table');
         });
     }
+    else{
+      alert("All fields are required except Notes")
+    }
   };
 
   
