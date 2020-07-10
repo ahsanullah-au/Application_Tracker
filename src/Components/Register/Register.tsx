@@ -1,3 +1,5 @@
+//Component to handle Register functionality
+
 import React, { useState, ChangeEvent, MouseEvent } from 'react';
 
 interface RegisterProps {
@@ -7,14 +9,14 @@ interface RegisterProps {
 }
 
 const Register = ({ route, setRoute, setUser }: RegisterProps) => {
-  const [registerState, setRegisterState] = useState({
+  const [registerState, setRegisterState] = useState({//State to hold Register info
     firstname: '',
     lastname: '',
     email: '',
     password: '',
   });
 
-
+  //Functions to store input changes in State
   const onFirstNameChange = (event: ChangeEvent) => {
     setRegisterState({
       firstname: (event.target as HTMLTextAreaElement).value,
@@ -50,6 +52,7 @@ const Register = ({ route, setRoute, setUser }: RegisterProps) => {
     });
   };
 
+  //Submits new account if all values are given and email doesnt already exist
   const onSubmitRegister = (event: MouseEvent) => {
     event.preventDefault();
     if (registerState.firstname && registerState.lastname && registerState.email && registerState.password) {
@@ -69,7 +72,7 @@ const Register = ({ route, setRoute, setUser }: RegisterProps) => {
             setUser(user);
             setRoute('Home');
           }
-          else{
+          else {
             alert("Email already exists")
           }
         });

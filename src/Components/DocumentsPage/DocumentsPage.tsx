@@ -1,40 +1,41 @@
-import React, { useState, ChangeEvent } from 'react';
+//Component to view and add documents
 
+import React, { useState, ChangeEvent } from 'react';
 import type { userType, userDocsArrayType } from '../../App';
 
 interface DocPageType {
-    user: userType,
-    setRoute: Function
-    userDocs: userDocsArrayType,
-    setUserDocs: Function
-    getDocs: Function
+  user: userType,
+  setRoute: Function
+  userDocs: userDocsArrayType,
+  setUserDocs: Function
+  getDocs: Function
 }
 
 interface UploadStateType {
-
-    url: string,
-    file: null | FileList
+  url: string,
+  file: null | FileList
 }
 
 
 const DocumentsPage = ({
   user, setRoute, userDocs, setUserDocs, getDocs
 }: DocPageType) => {
-  const [uploadState, setUploadState] = useState<UploadStateType>({ url: '', file: null });
+  const [uploadState, setUploadState] = useState<UploadStateType>({ url: '', file: null });//State to store Url and File
 
   const handleUploadChange = (evt: ChangeEvent) => {
-    setUploadState({ url: '', file: (evt.target as HTMLInputElement).files });
+    setUploadState({ url: '', file: (evt.target as HTMLInputElement).files });//Adds file to State
   };
 
-  
+  //Checks for filename as there cant be duplicate
   const nameAlreadyExists = (fileName: string) => userDocs.some((elem) => elem.fileName === fileName);
 
+  //Uploads doc to AWS S3 Bucket using presigned URL from Backend and adds record to DB
   const handleUpload = () => {
     if (uploadState.file && !nameAlreadyExists(uploadState.file[0].name)) {
       const file = uploadState.file[0];
 
 
-      fetch('http://localhost:3001/docStorage', {
+      fetch('http://localhost:3001/docStorage', {//Gets presigned URL for doc
         method: 'POST', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',
@@ -46,7 +47,7 @@ const DocumentsPage = ({
         }),
       })
         .then((data) => data.json())
-        .then((data) => {
+        .then((data) => {//Uploads doc using presigned URL
           const url = data.returnURL;
           return fetch(data.signedRequest, { method: 'PUT', body: file })
             .then((response) => {
@@ -60,7 +61,7 @@ const DocumentsPage = ({
           if (!user.id || !file.name || !url) {
             throw new Error('Missing User or Files');
           } else {
-            return fetch('http://localhost:3001/docAccess', {
+            return fetch('http://localhost:3001/docAccess', {//Saves Document in Backend if upload was successful
               method: 'post',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -71,14 +72,16 @@ const DocumentsPage = ({
             });
           }
         })
-        .then((newAdd) => getDocs());
+        .then((newAdd) => getDocs())
+        .catch(err => alert("Upload Error"))
     } else if (!uploadState.file) {
-      alert('File Not Uploaded');
+      alert('No File Given');
     } else {
       alert('Filename Already Exists');
     }
   };
 
+  //Deletes document record from DB and document from S3 Bucket
   const handleDelete = (tempDocID: string, tempFileURL: string) => {
     if (tempDocID && tempFileURL) {
       fetch('http://localhost:3001/docAccess', {
@@ -101,6 +104,7 @@ const DocumentsPage = ({
     }
   };
 
+  //Renders each document
   const renderTableBody = () => userDocs.map((docRecord) => (
     <tr className="stripe-dark w-100" key={docRecord.docID}>
       <td className="pa3 center">{docRecord.fileName}</td>
@@ -110,7 +114,7 @@ const DocumentsPage = ({
     </tr>
   ));
 
-  
+
 
   return (
     <>

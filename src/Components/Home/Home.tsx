@@ -1,7 +1,8 @@
+//Main component to show all applications and their respective data
+
 import React, { useState, useEffect } from 'react';
 import AppEntry from '../AppEntry/AppEntry';
 import AddForm from '../AddForm/AddForm';
-
 import type { userType, userDocsArrayType } from '../../App';
 
 interface HomeType {
@@ -15,7 +16,7 @@ interface HomeType {
 const Home = ({
   user, setUser, setRoute, userDocs, getDocs
 }: HomeType) => {
-  const [appData, setAppData] = useState<Array<{ [key: string]: string }>>([{ // Lets you index by string, for sorting function
+  const [appData, setAppData] = useState<Array<{ [key: string]: string }>>([{ // State to hold all applications, lets you index by string for sorting function
     appID: '',
     appCompany: '',
     appRole: '',
@@ -27,15 +28,15 @@ const Home = ({
   }]);
 
 
-  const [sortState, setSortState] = useState({ sortType: 'ID', sortDirection: 1 });
+  const [sortState, setSortState] = useState({ sortType: 'ID', sortDirection: 1 });//State to store sort direction and type
 
-  const [tableRoute, setTableRoute] = useState('table');
+  const [tableRoute, setTableRoute] = useState('table');//Toggle if there exist records
 
 
   useEffect(() => getApplications(),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     []);
 
+  //Gets Applications from DB.
   const getApplications = () => {
     if (user.id) {
       fetch(`http://localhost:3001/applications/${user.id}`, {
@@ -49,16 +50,17 @@ const Home = ({
     }
   };
 
+  //Sorts all applications in state
   const sortApplications = (tempSortType = sortState.sortType, changeSortDirection = 1) => {
     setSortState({
       sortType: tempSortType,
       sortDirection: sortState.sortDirection * -1 * changeSortDirection,
     });
 
-    setAppData(appData.sort((a, b) => (((`${a[tempSortType]}`).localeCompare(`${b[tempSortType]}`)) * sortState.sortDirection)));
+    setAppData(appData.sort((a, b) => (((`${a[tempSortType]}`).localeCompare(`${b[tempSortType]}`)) * sortState.sortDirection)));//Sorts based on type and direction
   };
 
-
+  //Renders all applications
   const renderTableBody = () => appData.map((appRecord) => (
     <AppEntry
       key={`App Key: ${appRecord.appID}`}
@@ -72,14 +74,15 @@ const Home = ({
       appNotes={appRecord.appNotes}
       getApplications={getApplications}
       userDocs={userDocs}
-      getDocs = {getDocs}
+      getDocs={getDocs}
     />
   ));
 
+  //Used to get documents when this is rendered
   useEffect(() => getDocs(),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     []);
 
+  //If there are records, it returns a table
   if (tableRoute === 'table') {
     return (
 
@@ -141,7 +144,7 @@ const Home = ({
       </>
     );
   }
-
+  //Always returns link to form to add more applications.
   return (
     <AddForm user={user} setTableRoute={setTableRoute} getApplications={getApplications} />
   );

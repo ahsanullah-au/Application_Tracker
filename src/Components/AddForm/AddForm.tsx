@@ -3,7 +3,6 @@
 
 
 import React, { useState, useEffect } from 'react';
-
 import { userType } from '../../App';
 
 interface newApplicationTypes {

@@ -1,3 +1,5 @@
+//Main Component, used to store User and Doc data
+
 import React, { useState } from 'react';
 import './App.css';
 import SignIn from './Components/SignIn/SignIn';
@@ -20,11 +22,11 @@ export interface userDocsType {
   fileURL: string;
 }
 
-export interface userDocsArrayType extends Array<userDocsType>{}
+export interface userDocsArrayType extends Array<userDocsType> { }
 
 function App() {
-  const [route, setRoute] = useState('SignIn');
-  const [user, setUser] = useState<userType>({
+  const [route, setRoute] = useState('SignIn');//Stores initial routes
+  const [user, setUser] = useState<userType>({//Stores User data after signin
     id: '',
     firstname: '',
     lastname: '',
@@ -33,10 +35,9 @@ function App() {
     lastAppDate: '',
   });
 
-  
+  const [userDocs, setUserDocs] = useState<userDocsArrayType>([{ docID: '', fileName: '', fileURL: '' }]);//Stores records of user's docs, and URL to the S3 hosted doc
 
-  const [userDocs, setUserDocs] = useState<userDocsArrayType>([{ docID: '', fileName: '', fileURL: '' }]);
-
+  //Function to return the user's doc records from DB
   const getDocs = () => {
     if (user.id) {
       fetch(`http://localhost:3001/docAccess/${user.id}`, {
@@ -50,14 +51,14 @@ function App() {
     }
   };
 
-
+  //Returns signin or register page at first, and then home page
   return (
     <div className="App">
       {
         (route === 'SignIn') ? <SignIn route={route} setRoute={setRoute} setUser={setUser} />
           : (route === 'Register') ? <Register route={route} setRoute={setRoute} setUser={setUser} />
-            : (route === 'Docs') ? <DocumentsPage user={user} setRoute={setRoute} userDocs={userDocs} setUserDocs={setUserDocs} getDocs={getDocs}/>
-              : <Home user={user} setRoute={setRoute} setUser={setUser} userDocs={userDocs} getDocs={getDocs}/>
+            : (route === 'Docs') ? <DocumentsPage user={user} setRoute={setRoute} userDocs={userDocs} setUserDocs={setUserDocs} getDocs={getDocs} />
+              : <Home user={user} setRoute={setRoute} setUser={setUser} userDocs={userDocs} getDocs={getDocs} />
       }
 
     </div>

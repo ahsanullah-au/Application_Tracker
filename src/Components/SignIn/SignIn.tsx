@@ -1,4 +1,4 @@
-//Component to handle sign in functionality
+//Component to handle Sign In functionality
 
 import React, { useState, ChangeEvent, MouseEvent } from 'react';
 
