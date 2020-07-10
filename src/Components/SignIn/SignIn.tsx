@@ -1,32 +1,35 @@
+//Component to handle sign in functionality
+
 import React, { useState, ChangeEvent, MouseEvent } from 'react';
 
 interface SignInProps {
-    route: string,
-    setRoute: Function,
-    setUser: Function
+  route: string,
+  setRoute: Function,
+  setUser: Function
 }
 
-const SignIn = ({ route, setRoute, setUser }:SignInProps) => {
-  const [signInState, setSignInState] = useState({
+const SignIn = ({ route, setRoute, setUser }: SignInProps) => {
+  const [signInState, setSignInState] = useState({//State to hold sign in info
     email: '',
     password: '',
   });
 
-
-  const onEmailChange = (event:ChangeEvent) => {
+  //Functions to store input changes in State
+  const onEmailChange = (event: ChangeEvent) => {
     setSignInState({
       email: (event.target as HTMLTextAreaElement).value,
       password: signInState.password,
     });
   };
-  const onPasswordChange = (event:ChangeEvent) => {
+  const onPasswordChange = (event: ChangeEvent) => {
     setSignInState({
       email: signInState.email,
       password: (event.target as HTMLTextAreaElement).value,
     });
   };
 
-  const onSubmitSignin = (event:MouseEvent) => {
+  //Checks against backend, authorizing access
+  const onSubmitSignin = (event: MouseEvent) => {
     event.preventDefault();
     if (signInState.email && signInState.password) {
       fetch('http://localhost:3001/signin', {
@@ -43,12 +46,12 @@ const SignIn = ({ route, setRoute, setUser }:SignInProps) => {
             setUser(user);
             setRoute('Home');
           }
-          else{
+          else {
             alert("Wrong email or password")
           }
         });
     }
-    else{
+    else {
       alert("Please enter your email and password")
     }
   };
@@ -91,7 +94,7 @@ const SignIn = ({ route, setRoute, setUser }:SignInProps) => {
         </div>
         <div className="lh-copy mt3">
           <a href="#0" className="f6 link dim black db" onClick={() => setRoute('Register')}>Register For An Account</a>
-          {/* <a href="#0" className="f6 link dim black db">Forgot your password?</a> */}
+          {/* <a href="#0" className="f6 link dim black db">Forgot your password?</a> To be implemented*/}
         </div>
       </form>
     </main>

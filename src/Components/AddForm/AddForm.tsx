@@ -1,3 +1,7 @@
+//Form used to add job applications.
+//Connects to Web scraper to pull Indeed postings to autopopulate.
+
+
 import React, { useState, useEffect } from 'react';
 
 import { userType } from '../../App';
@@ -9,14 +13,14 @@ interface newApplicationTypes {
 }
 
 const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) => {
-  const [addFormRoute, setAddFormRoute] = useState('choice');
+  const [addFormRoute, setAddFormRoute] = useState('choice');//State for which part of this component is being used
 
-  const [scraperInput, setScraperInput] = useState({
+  const [scraperInput, setScraperInput] = useState({//State to hold input for scraper
     scraperURL: '',
     scraperSite: 'Indeed',
   });
 
-  const [scrapedValues, setScrapedValues] = useState({
+  const [scrapedValues, setScrapedValues] = useState({//State to hold output from scraper
     jobTitle: '',
     jobLocation: '',
     jobCompanyName: '',
@@ -25,7 +29,7 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
 
   const getTodaysDate = () => {
     const date = new Date()
-    return `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)}`
+    return `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)}`//Returns today's UTC date and converts to HTML value format
   }
 
   const [newApplication, setNewApplication] = useState({
@@ -39,7 +43,7 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
   });
 
   // When scraper values are updated, so are the newApplication values
-  // To enable addition of default scraped values
+  // Setting default values below so that scraped values can be used right away
   useEffect(() => {
     setNewApplication({
       newCompany: scrapedValues.jobCompanyName,
@@ -50,9 +54,10 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
       newLink: scrapedValues.jobURL,
       newNotes: newApplication.newNotes,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [scrapedValues]);
 
+  //Gets all applications in DB for specific user.
   const getScraperValues = () => {
     if (scraperInput.scraperURL) {
       fetch('http://localhost:3001/scraper', {
@@ -72,6 +77,7 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
     }
   };
 
+  //Adds applications to DB if all required fields are filled out.
   const addApplication = () => {
     if (user.id && newApplication.newCompany && newApplication.newRole && newApplication.newLocation && newApplication.newDate && newApplication.newResponse && newApplication.newLink) {
       fetch('http://localhost:3001/applications', {
@@ -95,14 +101,14 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
           setTableRoute('table');
         });
     }
-    else{
+    else {
       alert("All fields are required except Notes")
     }
   };
 
-  
 
 
+  //Choosing between manual entry and scraper
   if (addFormRoute === 'choice') {
     return (
       <>
@@ -112,6 +118,7 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
       </>
     );
   }
+  //Manual Entry
   if (addFormRoute === 'form') {
     return (
       <>
@@ -178,7 +185,7 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
     );
   }
 
-
+  //Scraper
   return (
     <>
       <article className="pa4 black-80">
@@ -192,6 +199,7 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
             />
           </div>
           {/*
+          Taking out below while LinkedIn scraper is fixed or changed to API based solution
           <div className="mt3">
             <label className="db fw4 lh-copy f6">Type of Posting</label>
             <select id="AddResponse" onChange={(evt) => { setScraperInput({ ...scraperInput, scraperSite: evt.target.value }); }}>
