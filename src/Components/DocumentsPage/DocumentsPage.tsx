@@ -35,7 +35,7 @@ const DocumentsPage = ({
       const file = uploadState.file[0];
 
 
-      fetch('http://localhost:3001/docStorage', {//Gets presigned URL for doc
+      fetch('https://obscure-dusk-24459.herokuapp.com/docStorage', {//Gets presigned URL for doc
         method: 'POST', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ const DocumentsPage = ({
           if (!user.id || !file.name || !url) {
             throw new Error('Missing User or Files');
           } else {
-            return fetch('http://localhost:3001/docAccess', {//Saves Document in Backend if upload was successful
+            return fetch('https://obscure-dusk-24459.herokuapp.com/docAccess', {//Saves Document in Backend if upload was successful
               method: 'post',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -84,7 +84,7 @@ const DocumentsPage = ({
   //Deletes document record from DB and document from S3 Bucket
   const handleDelete = (tempDocID: string, tempFileURL: string) => {
     if (tempDocID && tempFileURL) {
-      fetch('http://localhost:3001/docAccess', {
+      fetch('https://obscure-dusk-24459.herokuapp.com/docAccess', {
         method: 'delete',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -92,7 +92,7 @@ const DocumentsPage = ({
         }),
       })
         .then((response) => {
-          fetch('http://localhost:3001/docStorage', {
+          fetch('https://obscure-dusk-24459.herokuapp.com/docStorage', {
             method: 'delete',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

@@ -59,7 +59,7 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
   //Gets all applications in DB for specific user.
   const getScraperValues = () => {
     if (scraperInput.scraperURL) {
-      fetch('http://localhost:3001/scraper', {
+      fetch('https://obscure-dusk-24459.herokuapp.com/scraper', {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -79,7 +79,7 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
   //Adds applications to DB if all required fields are filled out.
   const addApplication = () => {
     if (user.id && newApplication.newCompany && newApplication.newRole && newApplication.newLocation && newApplication.newDate && newApplication.newResponse && newApplication.newLink) {
-      fetch('http://localhost:3001/applications', {
+      fetch('https://obscure-dusk-24459.herokuapp.com/applications', {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

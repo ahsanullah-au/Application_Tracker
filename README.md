@@ -2,6 +2,10 @@
 
 Front End of a webapp that helps you keep track of your job applications. Uses React and TypeScript on the front end.
 
+Live version can be found here: https://applicationtracker-ahsan.netlify.app/
+
+This is an alpha version that will receive a major UI overhaul soon.
+
 # Features:
 
 * Secure Signin/Register

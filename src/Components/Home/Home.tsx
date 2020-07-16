@@ -39,7 +39,7 @@ const Home = ({
   //Gets Applications from DB.
   const getApplications = () => {
     if (user.id) {
-      fetch(`http://localhost:3001/applications/${user.id}`, {
+      fetch(`https://obscure-dusk-24459.herokuapp.com/applications/${user.id}`, {
         method: 'get',
         headers: { 'Content-Type': 'application/json' },
       })

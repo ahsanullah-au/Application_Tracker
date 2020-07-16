@@ -45,7 +45,7 @@ const AppEntry = ({
   //Allows updates of applications in DB if all fields are given
   const updateApplication = () => {
     if (appID && newApplication.newCompany && newApplication.newRole && newApplication.newLocation && newApplication.newDate && newApplication.newResponse && newApplication.newLink) {
-      fetch('http://localhost:3001/applications', {
+      fetch('https://obscure-dusk-24459.herokuapp.com/applications', {
         method: 'put',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -75,7 +75,7 @@ const AppEntry = ({
   const getLinkedDocs = () => {
 
     if (appID) {
-      fetch(`http://localhost:3001/docLink/${appID}`, {
+      fetch(`https://obscure-dusk-24459.herokuapp.com/docLink/${appID}`, {
         method: 'get',
         headers: { 'Content-Type': 'application/json' },
       })
@@ -91,7 +91,7 @@ const AppEntry = ({
   const deleteApplication = () => {
     let del = window.confirm("Are you sure you want to delete this?")
     if (appID && del) {
-      fetch('http://localhost:3001/applications', {
+      fetch('https://obscure-dusk-24459.herokuapp.com/applications', {
         method: 'delete',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -140,7 +140,7 @@ const AppEntry = ({
   //Updates the selected documents in this application in the DB
   const updateSelectedDocs = (evt: MouseEvent) => {
     if (appID) {
-      fetch('http://localhost:3001/docLink', {
+      fetch('https://obscure-dusk-24459.herokuapp.com/docLink', {
         method: 'put',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

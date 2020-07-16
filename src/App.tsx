@@ -40,7 +40,7 @@ function App() {
   //Function to return the user's doc records from DB
   const getDocs = () => {
     if (user.id) {
-      fetch(`http://localhost:3001/docAccess/${user.id}`, {
+      fetch(`https://obscure-dusk-24459.herokuapp.com/docAccess/${user.id}`, {
         method: 'get',
         headers: { 'Content-Type': 'application/json' },
       })
