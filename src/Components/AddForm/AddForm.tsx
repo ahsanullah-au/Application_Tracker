@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
+//Form used to add job applications.
+//Connects to Web scraper to pull Indeed postings to autopopulate.
 
+
+import React, { useState, useEffect } from 'react';
 import { userType } from '../../App';
 
 interface newApplicationTypes {
@@ -9,32 +12,37 @@ interface newApplicationTypes {
 }
 
 const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) => {
-  const [addFormRoute, setAddFormRoute] = useState('choice');
+  const [addFormRoute, setAddFormRoute] = useState('choice');//State for which part of this component is being used
 
-  const [scraperInput, setScraperInput] = useState({
+  const [scraperInput, setScraperInput] = useState({//State to hold input for scraper
     scraperURL: '',
-    scraperSite: 'LinkedIn',
+    scraperSite: 'Indeed',
   });
 
-  const [scrapedValues, setScrapedValues] = useState({
+  const [scrapedValues, setScrapedValues] = useState({//State to hold output from scraper
     jobTitle: '',
     jobLocation: '',
     jobCompanyName: '',
     jobURL: '',
   });
 
+  const getTodaysDate = () => {
+    const date = new Date()
+    return `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)}`//Returns today's UTC date and converts to HTML value format
+  }
+
   const [newApplication, setNewApplication] = useState({
     newCompany: scrapedValues.jobCompanyName,
     newRole: scrapedValues.jobTitle,
     newLocation: scrapedValues.jobLocation,
-    newDate: '',
+    newDate: getTodaysDate(),
     newResponse: 'None',
     newLink: scrapedValues.jobURL,
     newNotes: '',
   });
 
   // When scraper values are updated, so are the newApplication values
-  // To enable addition of default scraped values
+  // Setting default values below so that scraped values can be used right away
   useEffect(() => {
     setNewApplication({
       newCompany: scrapedValues.jobCompanyName,
@@ -45,12 +53,13 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
       newLink: scrapedValues.jobURL,
       newNotes: newApplication.newNotes,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [scrapedValues]);
 
+  //Gets all applications in DB for specific user.
   const getScraperValues = () => {
     if (scraperInput.scraperURL) {
-      fetch('http://localhost:3001/scraper', {
+      fetch('https://obscure-dusk-24459.herokuapp.com/scraper', {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -67,9 +76,10 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
     }
   };
 
+  //Adds applications to DB if all required fields are filled out.
   const addApplication = () => {
     if (user.id && newApplication.newCompany && newApplication.newRole && newApplication.newLocation && newApplication.newDate && newApplication.newResponse && newApplication.newLink) {
-      fetch('http://localhost:3001/applications', {
+      fetch('https://obscure-dusk-24459.herokuapp.com/applications', {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -90,18 +100,24 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
           setTableRoute('table');
         });
     }
+    else {
+      alert("All fields are required except Notes")
+    }
   };
 
 
+
+  //Choosing between manual entry and scraper
   if (addFormRoute === 'choice') {
     return (
       <>
         <p className="f2 link dim black pa3 pointer" onClick={() => setAddFormRoute('form')}>Add Manually</p>
-        <p className="f2 link dim black pa3 pointer" onClick={() => setAddFormRoute('scraper')}>Add From LinkedIn or Indeed Postings</p>
+        <p className="f2 link dim black pa3 pointer" onClick={() => setAddFormRoute('scraper')}>Add From Indeed Postings</p>
         <p className="f2 link dim black pa3 pointer" onClick={() => setTableRoute('table')}>Cancel</p>
       </>
     );
   }
+  //Manual Entry
   if (addFormRoute === 'form') {
     return (
       <>
@@ -122,7 +138,9 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
               </div>
               <div className="mt3">
                 <label className="db fw4 lh-copy f6">Date</label>
-                <input type="date" id="AddDate" onChange={(evt) => { setNewApplication({ ...newApplication, newDate: evt.target.value }); }} />
+                <input type="date" id="AddDate"
+                  defaultValue={getTodaysDate()}
+                  onChange={(evt) => { setNewApplication({ ...newApplication, newDate: evt.target.value }); }} />
               </div>
               <div className="mt3">
                 <label className="db fw4 lh-copy f6">Response</label>
@@ -166,7 +184,7 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
     );
   }
 
-
+  //Scraper
   return (
     <>
       <article className="pa4 black-80">
@@ -179,13 +197,16 @@ const AddForm = ({ user, setTableRoute, getApplications }: newApplicationTypes) 
               onChange={(evt) => { setScraperInput({ ...scraperInput, scraperURL: evt.target.value }); }}
             />
           </div>
+          {/*
+          Taking out below while LinkedIn scraper is fixed or changed to API based solution
           <div className="mt3">
             <label className="db fw4 lh-copy f6">Type of Posting</label>
             <select id="AddResponse" onChange={(evt) => { setScraperInput({ ...scraperInput, scraperSite: evt.target.value }); }}>
-              {/*<option>LinkedIn</option>*/}
+              <option>LinkedIn</option>
               <option>Indeed</option>
             </select>
           </div>
+          */}
           <div className="mt3">
             <input
               className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6"
