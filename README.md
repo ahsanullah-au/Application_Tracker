@@ -2,6 +2,7 @@
 
 Front End of a Web Application that helps you keep track of your job applications and relevant documents for each application. Uses React and TypeScript on the front end.
 
+[Live Link](https://applicationtracker-ahsan.netlify.app/ "Application Tracker")
 
 # Features:
 
